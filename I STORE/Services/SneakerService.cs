@@ -13,31 +13,31 @@ namespace I_STORE.Services
             _context = context;
         }
 
-        public bool Add(Product sneaker)
+        public bool Add(Sneaker sneaker)
         {
-            _context.Products.Add(sneaker);
+            _context.Sneakers.Add(sneaker);
             return Save();
                 
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IEnumerable<Sneaker>> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Sneakers.ToListAsync();
         }
 
-        public async Task<Product> GetByName(string sneakerName)
+        public async Task<IEnumerable<Sneaker>> GetByName(string sneakerName)
         {
-            return await _context.Products.Where(s => s.ProductName.Contains(sneakerName)).FirstOrDefaultAsync();
+            return await _context.Sneakers.Where(s => s.Name.Contains(sneakerName)).ToListAsync();
         }
 
-        public async Task<Product> GetByNumericSize(int numericSize , string sneakerName)
+        public async Task<IEnumerable<Sneaker>> GetByNumericSize(int numericSize , string? sneakerName)
         {
-            return await _context.Products.Where(s => s.NumericSize == numericSize).FirstOrDefaultAsync();
+            return await _context.Sneakers.Where(s => s.Size==numericSize && s.Name.Contains(sneakerName)).ToListAsync();
         }
 
-        public bool Remove(Product sneaker)
+        public bool Remove(Sneaker sneaker)
         {
-            _context.Products.Remove(sneaker);
+            _context.Sneakers.Remove(sneaker);
             return Save();
 
         }
@@ -48,9 +48,9 @@ namespace I_STORE.Services
 
         }
 
-        public bool Update(Product sneaker)
+        public bool Update(Sneaker sneaker)
         {
-            _context.Products.Update(sneaker);
+            _context.Sneakers.Update(sneaker);
             return Save();
         }
     }

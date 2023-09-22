@@ -14,5 +14,6 @@ namespace I_STORE.Data
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Sneaker> Sneakers { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace I_STORE.Models
         public string ProductName { get; set; }
         public ProductCategory ProductCategory { get; set; }
         public int Cost { get; set; }
-        public int? NumericSize { get; set; }
-        public string? AlphabeticalSize { get; set; }
+        
+        public string? Size { get; set; }
     }   
 }

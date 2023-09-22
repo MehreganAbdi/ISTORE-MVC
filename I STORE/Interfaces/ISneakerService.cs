@@ -4,12 +4,12 @@ namespace I_STORE.Interfaces
 {
     public interface ISneakerService
     {
-        Task<IEnumerable<Product>> GetAll();
-        Task<Product> GetByNumericSize(int numericSize);
-        Task<Product> GetByName(string sneakerName);
-        bool Add(Product sneaker);
-        bool Update(Product sneaker);
-        bool Remove(Product sneaker);
+        Task<IEnumerable<Sneaker>> GetAll();
+        Task<IEnumerable<Sneaker>> GetByNumericSize(int numericSize , string SneakerName);
+        Task<IEnumerable<Sneaker>> GetByName(string sneakerName);
+        bool Add(Sneaker sneaker);
+        bool Update(Sneaker sneaker);
+        bool Remove(Sneaker sneaker);
         bool Save();
 
     }

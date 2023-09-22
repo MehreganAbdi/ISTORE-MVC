@@ -13,7 +13,7 @@ namespace I_STORE.Controllers
         }
         public async Task<IActionResult> Sneaker(string name , int? numericSize)
         {
-
+            return View();
         }
 
     }
