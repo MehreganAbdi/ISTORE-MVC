@@ -3,7 +3,7 @@ using I_STORE.Models;
 
 namespace I_STORE.Interfaces
 {
-    public interface IUpperBodyService
+    public interface ILowerBodyService
     {
         Task<IEnumerable<Product>> GetAllByCategory(ProductCategory category);
         Task<IEnumerable<Product>> GetByName(string Name);
