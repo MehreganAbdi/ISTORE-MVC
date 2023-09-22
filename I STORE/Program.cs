@@ -1,5 +1,7 @@
 using I_STORE.Data;
+using I_STORE.Interfaces;
 using I_STORE.Models;
+using I_STORE.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ namespace I_STORE
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<ISneakerService, SneakerService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {

@@ -25,6 +25,17 @@ namespace I_STORE.Services
             return await _context.Sneakers.ToListAsync();
         }
 
+        public async Task<Sneaker> GetByIdAsync(int Id)
+        {
+            return await _context.Sneakers.FirstAsync(s => s.SneakerId == Id);
+        }
+
+        public async Task<Sneaker> GetByIdAsyncNoTracking(int Id)
+        {
+            return await _context.Sneakers.AsNoTracking().FirstAsync(s => s.SneakerId == Id);
+        }
+
+
         public async Task<IEnumerable<Sneaker>> GetByName(string sneakerName)
         {
             return await _context.Sneakers.Where(s => s.Name.Contains(sneakerName)).ToListAsync();
