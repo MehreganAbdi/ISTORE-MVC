@@ -16,7 +16,11 @@ namespace I_STORE
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
             builder.Services.AddScoped<ISneakerService, SneakerService>();
+            builder.Services.AddScoped<IUpperBodyService, UpperBodyService>();
+            builder.Services.AddScoped<ILowerBodyService, LowerBodyService>();
+
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
