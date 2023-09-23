@@ -5,7 +5,7 @@ namespace I_STORE.Interfaces
 {
     public interface IUpperBodyService
     {
-        Task<IEnumerable<Product>> GetAllByCategory(ProductCategory category);
+        Task<IEnumerable<Product>> GetAll();
         Task<IEnumerable<Product>> GetByName(string Name);
         Task<Product> GetByIdAsync(int Id);
         Task<Product> GetByIdAsyncNoTracking(int Id);

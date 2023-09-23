@@ -1,18 +1,16 @@
 ﻿using I_STORE.Data.Enum;
-using System.ComponentModel.DataAnnotations;
 
-namespace I_STORE.Models
+namespace I_STORE.ViewModels
 {
-    public class Product
+    public class ProductVM
     {
-        [Key]
         public int ProductID { get; set; }
 
         public string ProductName { get; set; }
         public ProductCategory ProductCategory { get; set; }
-       
+      
         public int Count { get; set; }
         public int Price { get; set; }
         public string? Size { get; set; }
-    }   
+    }
 }

@@ -22,7 +22,7 @@ namespace I_STORE.Controllers
         public async Task<IActionResult> Detail(int Id)
         {
             var sneaker = await _sneakerService.GetByIdAsync(Id);
-            if(sneaker != null)
+            if (sneaker != null)
             {
                 return View(sneaker);
             }
@@ -31,7 +31,7 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Create()
         {
-            return  View();
+            return View();
         }
 
         [HttpPost]
@@ -79,15 +79,19 @@ namespace I_STORE.Controllers
                 Size = sneakerVM.Size,
                 Count = sneakerVM.Count
             };
-            _sneakerService.Update(sneaker);
-            
-            return RedirectToAction("Index");
-            
+            var result = _sneakerService.Update(sneaker);
+            if (result)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(sneakerVM);
+
+
         }
 
         public async Task<IActionResult> Delete(int Id)
         {
-            if(_sneakerService.Remove(await _sneakerService.GetByIdAsync(Id)))
+            if (_sneakerService.Remove(await _sneakerService.GetByIdAsync(Id)))
             {
                 return RedirectToAction("Index");
             }
