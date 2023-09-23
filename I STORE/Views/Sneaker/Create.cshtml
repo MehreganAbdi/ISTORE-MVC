@@ -1,0 +1,38 @@
+﻿@using I_STORE.Data.Enum;
+@model Sneaker
+@{
+    ViewData["Title"] = "Add Sneaker";
+}
+
+
+<body>
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" type="text" class="form-control" placeholder="Enter Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="Company">Company</label>
+            <select asp-for="Company" asp-items="@Html.GetEnumSelectList<Company>()">
+                <option> - - select - - </option>
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="Size">Size</label>
+            <input asp-for="Size" type="number" class="form-control" placeholder="Edition">
+            <span asp-validation-for="Size" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="Count">Count</label>
+            <input asp-for="Count" type="number" class="form-control" placeholder="Count">
+            <span asp-validation-for="Count" class="text-danger"></span>
+        </div>
+        <br />
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>

@@ -32,7 +32,7 @@ namespace I_STORE.Services
 
         public async Task<Sneaker> GetByIdAsyncNoTracking(int Id)
         {
-            return await _context.Sneakers.AsNoTracking().FirstAsync(s => s.SneakerId == Id);
+            return await _context.Sneakers.AsNoTracking().Where(b => b.SneakerId == Id).FirstOrDefaultAsync();
         }
 
 

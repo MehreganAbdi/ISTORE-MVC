@@ -1,11 +1,9 @@
 ﻿using I_STORE.Data.Enum;
-using System.ComponentModel.DataAnnotations;
 
-namespace I_STORE.Models
+namespace I_STORE.ViewModels
 {
-    public class Sneaker
+    public class SneakerVM
     {
-        [Key]
         public int SneakerId { get; set; }
         public string Name { get; set; }
         public int Size { get; set; }
