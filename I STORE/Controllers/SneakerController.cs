@@ -56,6 +56,7 @@ namespace I_STORE.Controllers
                 Name = sneaker.Name,
                 Company = sneaker.Company,
                 Count = sneaker.Count,
+                Price = sneaker.Price,
                 Size = sneaker.Size
             };
 
@@ -73,6 +74,7 @@ namespace I_STORE.Controllers
             {
                 SneakerId = sneakerVM.SneakerId,
                 Name = sneakerVM.Name,
+                Price = sneakerVM.Price,
                 Company = sneakerVM.Company,
                 Size = sneakerVM.Size,
                 Count = sneakerVM.Count

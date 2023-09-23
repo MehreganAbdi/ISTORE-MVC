@@ -12,6 +12,7 @@ namespace I_STORE.Models
         public ProductCategory ProductCategory { get; set; }
         public int Cost { get; set; }
         public int Count { get; set; }
+        public int Price { get; set; }
         public string? Size { get; set; }
     }   
 }

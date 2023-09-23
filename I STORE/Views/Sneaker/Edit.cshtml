@@ -27,6 +27,12 @@
     </div>
     <br />
     <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" type="number" value="@Model.Price" class="form-control" placeholder="Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
         <label asp-for="Company">Book Category</label>
             <select asp-for="Company" onselect="@Model.Company" asp-items="@Html.GetEnumSelectList<Company>()">
             <option> - - select - - </option>
