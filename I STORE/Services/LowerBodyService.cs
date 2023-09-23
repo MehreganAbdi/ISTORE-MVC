@@ -19,9 +19,10 @@ namespace I_STORE.Services
             return Save();
         }
 
-        public async Task<IEnumerable<Product>> GetAllByCategory(ProductCategory category)
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Products.Where(p => p.ProductCategory == category).ToListAsync();
+            return await _context.Products.Where(p => p.ProductCategory == ProductCategory.Jean 
+                                                    || p.ProductCategory == ProductCategory.Cargo).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int Id)

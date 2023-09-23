@@ -1,0 +1,46 @@
+﻿@using I_STORE.Data.Enum;
+@using I_STORE.ViewModels;
+@model ProductVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<form method="post" asp-action="Edit">
+    <input asp-for="ProductID" type="hidden" value="@Model.ProductID" class="form-control" />
+    <div class="form-group">
+        <label asp-for="ProductName">ProductName</label>
+        <input asp-for="ProductName" type="text" value="@Model.ProductName" class="form-control" placeholder="Enter Name">
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Count">Count</label>
+        <input asp-for="Count" type="number" value="@Model.Count" class="form-control" placeholder="count">
+        <span asp-validation-for="Count" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Size">Size</label>
+        <input asp-for="Size" type="text" value="@Model.Size" class="form-control" placeholder="Size">
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" type="number" value="@Model.Price" class="form-control" placeholder="Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="ProductCategory">Product Category</label>
+        <select asp-for="ProductCategory" onselect="@Model.ProductCategory" asp-items="@Html.GetEnumSelectList<ProductCategory>()">
+            <option> - - select - - </option>
+        </select>
+    </div>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
