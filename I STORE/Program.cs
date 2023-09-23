@@ -10,7 +10,7 @@ namespace I_STORE
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ namespace I_STORE
             builder.Services.AddScoped<ISneakerService, SneakerService>();
             builder.Services.AddScoped<IUpperBodyService, UpperBodyService>();
             builder.Services.AddScoped<ILowerBodyService, LowerBodyService>();
-
+            builder.Services.AddScoped<IUserDashBoardService, UserDashBoardService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -40,7 +40,8 @@ namespace I_STORE
             var app = builder.Build();
             if (args.Length == 1 && args[0].ToLower() == "seeddata")
             {
-                SeedData.SneakerSeedData(app);
+                //await SeedData.SeedUsersAndRolesAsync(app);
+                //SeedData.SneakerSeedData(app);
             }
 
                 // Configure the HTTP request pipeline.

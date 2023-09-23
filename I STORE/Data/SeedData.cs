@@ -1,4 +1,5 @@
 ﻿using I_STORE.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace I_STORE.Data
 {
@@ -25,6 +26,50 @@ namespace I_STORE.Data
                     context.SaveChanges();
                 }
             }
+        }
+
+
+
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                //Roles
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                //Users
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                string adminUserEmail = "mehreganabdix@gmail.com";
+
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                if (adminUser == null)
+                {
+                    var newAdminUser = new AppUser()
+                    {
+                        UserName = "MehreganAbdi",
+                        Email = adminUserEmail,
+                        EmailConfirmed = true,
+                        Address = new Address()
+                        {
+                            FullAddress = "JannatAbad , ChaharbaghGharbi"
+                        }
+
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Coding@1234?");
+
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+              
+            }
+
+
         }
     }
 }
