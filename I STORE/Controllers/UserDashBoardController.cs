@@ -14,6 +14,8 @@ namespace I_STORE.Controllers
             _userDashBoardService = userDashBoardService;
         }
 
+
+
         public async Task<IActionResult> EditProfile()
         {
             var UserId = User.Identity.GetUserId();
@@ -26,9 +28,10 @@ namespace I_STORE.Controllers
             };
             return View(VModel);
         }
-
-
-        [HttpPost]
+        
+        
+        
+        HttpPost]
         public async Task<IActionResult> EditProfile(EditProfVM editProfVM)
         {
             var UserId = User.Identity.GetUserId();
