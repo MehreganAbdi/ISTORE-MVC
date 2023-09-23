@@ -4,6 +4,16 @@ namespace I_STORE.ViewModels
 {
     public class RegisterVM
     {
+
+        [Display(Name = "Address")]
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+
+
+        [Display(Name = "UserName")]
+        [Required(ErrorMessage = "UserName is required")]
+        public string UserName { get; set; }
+
         [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Email Address is required")]
         public string EmailAddress { get; set; }

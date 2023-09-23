@@ -91,7 +91,11 @@ namespace I_STORE.Controllers
             var newUser = new AppUser()
             {
                 Email = registerVM.EmailAddress,
-                UserName = registerVM.EmailAddress
+                UserName = registerVM.UserName.Replace(" ",""),
+                Address = new Address()
+                {
+                    FullAddress = registerVM.Address
+                }
 
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);

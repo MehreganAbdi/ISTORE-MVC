@@ -33,6 +33,16 @@ namespace I_STORE.Services
             return await _context.Purchases.Where(p => p.AppUserId == UserId).ToListAsync();
         }
 
+        public async Task<AppUser> GetUserById(string Id)
+        {
+            return await _context.Users.Include(p=>p.Address).Where(u => u.Id == Id).FirstOrDefaultAsync();
+        }
+
+        public async Task<AppUser> GetUserByIdNoTracking(string Id)
+        {
+            return await _context.Users.Include(p => p.Address).AsNoTracking().Where(u => u.Id == Id).FirstOrDefaultAsync();
+        }
+
         public bool RemovePurchase(Purchase purchase)
         {
             _context.Purchases.Remove(purchase);
@@ -47,6 +57,12 @@ namespace I_STORE.Services
         public bool UpdatePurchase(Purchase purchase)
         {
             _context.Purchases.Update(purchase);
+            return Save();
+        }
+
+        public bool UpdateUser(AppUser user)
+        {
+            _context.Users.Update(user);
             return Save();
         }
     }
