@@ -20,7 +20,7 @@ namespace I_STORE
             builder.Services.AddScoped<ISneakerService, SneakerService>();
             builder.Services.AddScoped<IUpperBodyService, UpperBodyService>();
             builder.Services.AddScoped<ILowerBodyService, LowerBodyService>();
-
+            builder.Services.AddScoped<IUserDashBoardService, UserDashBoardService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {

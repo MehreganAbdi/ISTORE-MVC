@@ -7,8 +7,10 @@ namespace I_STORE.Models
     {
         [Key]
         public int PurchaseId { get; set; }
+        [ForeignKey("SneakerId")]
+        public int SneakerId { get; set; } 
         [ForeignKey("ProductId")]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         [ForeignKey("AppUserId")]
         public string AppUserId { get; set; }
         
