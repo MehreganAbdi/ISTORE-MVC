@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using I_STORE.ViewModels;
+using I_STORE.Models;
 
 namespace I_STORE.Controllers
 {
@@ -13,7 +14,37 @@ namespace I_STORE.Controllers
         {
             _userDashBoardService = userDashBoardService;
         }
+        public async Task<IActionResult> Index()
+        {
+            var userId = User.Identity.GetUserId();
+            var model = await _userDashBoardService.GetPurchasesWithDetailsByUserIdAsync(userId);
+            
+            return View(model);
 
+        }
+        public async Task<IActionResult> PurchaseProduct(int Id)
+        {
+            var userId = User.Identity.GetUserId();
+            var purchase = new Purchase()
+            {
+                AppUserId = userId,
+                ProductId = Id
+            };
+
+            _userDashBoardService.AddPurchase(purchase);
+            return RedirectToAction("Index", "UpperBody"); 
+        } 
+        public async Task<IActionResult> PurchaseSneaker(int Id)
+        {
+            var userId = User.Identity.GetUserId();
+            var purchase = new Purchase()
+            {
+                AppUserId = userId,
+                SneakerId = Id
+            };
+            _userDashBoardService.AddPurchase(purchase);
+            return RedirectToAction("Index","Sneaker");
+        }
 
 
         public async Task<IActionResult> EditProfile()
@@ -31,7 +62,7 @@ namespace I_STORE.Controllers
         
         
         
-        HttpPost]
+        [HttpPost]
         public async Task<IActionResult> EditProfile(EditProfVM editProfVM)
         {
             var UserId = User.Identity.GetUserId();
@@ -39,6 +70,7 @@ namespace I_STORE.Controllers
 
             user.PhoneNumber = editProfVM.PhoneNumber;
             user.UserName = editProfVM.UserName;
+            user.Address.FullAddress = editProfVM.Address;
             user.PhoneNumberConfirmed = true;
             var x = _userDashBoardService.UpdateUser(user);
             if (x)

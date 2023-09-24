@@ -1,6 +1,7 @@
 ﻿using I_STORE.Data;
 using I_STORE.Interfaces;
 using I_STORE.Models;
+using I_STORE.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace I_STORE.Services
@@ -14,8 +15,29 @@ namespace I_STORE.Services
         }
         public bool AddPurchase(Purchase purchase)
         {
-            _context.Purchases.Add(purchase);
-            return Save();
+           
+            if (purchase.ProductId != null)
+            {
+                var product =  _context.Products.Where(p => p.ProductID == purchase.ProductId).FirstOrDefault();
+                if (product.Count > 0)
+                {
+                    _context.Purchases.Add(purchase);
+                    product.Count--;
+                    return Save();
+                }
+                return false;
+            }
+            else
+            {
+                var sneaker = _context.Sneakers.Where(p => p.SneakerId == purchase.SneakerId).FirstOrDefault();
+                if (sneaker.Count > 0)
+                {
+                    _context.Purchases.Add(purchase);
+                    sneaker.Count--;
+                    return Save();
+                }
+                return false;
+            }
         }
 
         public async Task<Purchase> GetPurchaseById(int Id)
@@ -43,6 +65,38 @@ namespace I_STORE.Services
             return await _context.Users.Include(p => p.Address).AsNoTracking().Where(u => u.Id == Id).FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<PurchaseVM>> GetPurchasesWithDetailsByUserIdAsync(string UserId)
+        {
+            var purchases = await _context.Purchases.Where(p => p.AppUserId == UserId).ToListAsync();
+            var model = new List<PurchaseVM>();
+            foreach (var item in purchases)
+            {
+                model.Add(await GetPurchaseVMByPuchase(item));
+            }
+            return model;
+        }
+        public async Task<PurchaseVM> GetPurchaseVMByPuchase(Purchase purchase)
+        {
+            var user = await _context.Users.Where(u => u.Id == purchase.AppUserId).FirstOrDefaultAsync();
+            if (purchase.SneakerId != null)
+            {
+                var sneaker = await _context.Sneakers.Where(s => s.SneakerId == purchase.SneakerId).FirstOrDefaultAsync();
+                var purchaseVM = new PurchaseVM()
+                {
+                    Sneaker = sneaker,
+                    PurchaseId = purchase.PurchaseId
+                };
+                return purchaseVM;
+            }
+            var product = await _context.Products.Where(p => p.ProductID == purchase.ProductId).FirstOrDefaultAsync();
+            var purchaseVM2 = new PurchaseVM()
+            {
+                Product = product,
+                PurchaseId = purchase.PurchaseId
+            };
+            return purchaseVM2;
+
+        }
         public bool RemovePurchase(Purchase purchase)
         {
             _context.Purchases.Remove(purchase);
