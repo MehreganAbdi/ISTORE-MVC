@@ -21,8 +21,8 @@ namespace I_STORE.Services
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Products.Where(p => p.ProductCategory == ProductCategory.Jean 
-                                                    || p.ProductCategory == ProductCategory.Cargo).ToListAsync();
+            return await _context.Products.Where(p => (p.ProductCategory == ProductCategory.Jean 
+                                                    || p.ProductCategory == ProductCategory.Cargo)).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int Id)

@@ -1,0 +1,53 @@
+﻿@using I_STORE.ViewModels;
+@model IEnumerable<PurchaseVM>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Detail</th>
+            <th scope="col">Price</th>
+
+        </tr>
+    </thead>
+    @{
+        var i = 1;
+        var total = 0;
+    }
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@i</th>
+                @if (item.Product == null)
+                {
+                    <td>@item.Sneaker.Name</td>
+                    <td>@item.Sneaker.Company</td>
+                    <td>@item.Sneaker.Price</td>
+                    total += item.Sneaker.Price;
+                }
+                else
+                {
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.ProductCategory</td>
+                    <td>@item.Product.Price</td>
+                    total += item.Product.Price;
+                }
+
+
+            </tr>
+        </tbody>
+        i++;
+    }
+    <thead>
+        <tr>
+            <th scope="col">*</th>
+            <th scope="col"></th>
+            <th scope="col">Total :</th>
+            <th scope="col">@total</th>
+
+        </tr>
+    </thead>
+
+</table>

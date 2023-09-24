@@ -31,6 +31,11 @@
                             <li>Size :  @Model.Size</li>
                             <li>Left : @Model.Count</li>
                             <li>Price : @Model.Price</li>
+                            @if (User.IsInRole("user") && User.Identity.IsAuthenticated)
+                            {
+                                <a class="btn btn-outline-success float right" asp-controller="UserDashBoard" asp-action="PurchaseProduct" asp-route-id="@Model.ProductID">Purchase</a>
+
+                            }
                         </ul>
                     </p>
                 </div>
