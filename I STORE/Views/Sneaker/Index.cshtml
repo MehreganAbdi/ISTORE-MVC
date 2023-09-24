@@ -34,7 +34,7 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            if (item.Count > 0 && User.IsInRole("user"))
+            if (item.Count > 0 && !(User.IsInRole("admin")))
             {
 
                 <div class="col-md-4">
