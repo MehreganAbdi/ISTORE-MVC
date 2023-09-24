@@ -32,7 +32,7 @@ namespace I_STORE.Controllers
             };
 
             _userDashBoardService.AddPurchase(purchase);
-            return RedirectToAction("Index", "UpperBody"); 
+            return RedirectToAction("Index", "UserDashBoard"); 
         } 
         public async Task<IActionResult> PurchaseSneaker(int Id)
         {
@@ -43,7 +43,7 @@ namespace I_STORE.Controllers
                 SneakerId = Id
             };
             _userDashBoardService.AddPurchase(purchase);
-            return RedirectToAction("Index","Sneaker");
+            return RedirectToAction("Index", "UserDashBoard");
         }
 
 

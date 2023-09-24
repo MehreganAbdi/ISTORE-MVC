@@ -13,9 +13,17 @@ namespace I_STORE.Controllers
         {
             _lowerBodyService = lowerBodyService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searching)
         {
             var model = await _lowerBodyService.GetAll();
+            if (searching == null)
+            {
+                return View(model);
+            }
+            model = model.Where(lb => lb.ProductName.Contains(searching)
+                                  || lb.ProductCategory.ToString().Contains(searching)
+                                  || lb.Size.Contains(searching)
+                                  || lb.Price.ToString().Contains(searching)).ToList();
             return View(model);
         }
         public async Task<IActionResult> Detail(int Id)

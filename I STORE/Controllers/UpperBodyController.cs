@@ -13,13 +13,22 @@ namespace I_STORE.Controllers
         {
             _upperBodyService = upperBodyService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searching)
         {
-            var models = await _upperBodyService.GetAll();
-            models = models.Where(p => p.ProductCategory == ProductCategory.Hoody 
+            var model = await _upperBodyService.GetAll();
+            model = model.Where(p => p.ProductCategory == ProductCategory.Hoody 
                                     || p.ProductCategory == ProductCategory.Tshirt 
                                     || p.ProductCategory == ProductCategory.Jacket).ToList();
-            return View(models);
+            if (searching == null)
+            {
+                return View(model);
+            }
+            model = model.Where(ub => ub.ProductName.Contains(searching)
+                                  || ub.ProductCategory.ToString().Contains(searching)
+                                  || ub.Size.Contains(searching)
+                                  || ub.Price.ToString().Contains(searching)).ToList();
+            return View(model);
+            
         }
 
         public async Task<IActionResult> Detail(int Id)
