@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using I_STORE.ViewModels;
+using I_STORE.Models;
 
 namespace I_STORE.Controllers
 {
@@ -13,7 +14,32 @@ namespace I_STORE.Controllers
         {
             _userDashBoardService = userDashBoardService;
         }
+        //public async Task<IActionResult> Index()
+        //{
 
+        //}
+        public async Task<IActionResult> PurchaseProduct(int productId)
+        {
+            var userId = User.Identity.GetUserId();
+            var purchase = new Purchase()
+            {
+                AppUserId = userId,
+                ProductId = productId
+            };
+
+            _userDashBoardService.AddPurchase(purchase);
+            return RedirectToAction("Index", "UpperBody"); 
+        } 
+        public async Task<IActionResult> PurchaseSneaker(int sneakerId)
+        {
+            var userId = User.Identity.GetUserId();
+            var purchase = new Purchase()
+            {
+                AppUserId = userId,
+                SneakerId = sneakerId
+            };
+            return RedirectToAction("Index","Sneaker");
+        }
 
 
         public async Task<IActionResult> EditProfile()
@@ -31,7 +57,7 @@ namespace I_STORE.Controllers
         
         
         
-        HttpPost]
+        [HttpPost]
         public async Task<IActionResult> EditProfile(EditProfVM editProfVM)
         {
             var UserId = User.Identity.GetUserId();

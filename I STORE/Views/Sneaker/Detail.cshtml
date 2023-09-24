@@ -34,6 +34,7 @@
                         <li>Size :  @Model.Size</li>
                         <li>Left : @Model.Count</li>
                         <li>Price : @Model.Price</li>
+                        <a class="btn btn-outline-success float right" asp-controller="UserDashBoard" asp-action="PurchaseSneaker" asp-route-id="@Model.SneakerId">Purchase</a>
                     </ul>
                 </p>
             </div>
