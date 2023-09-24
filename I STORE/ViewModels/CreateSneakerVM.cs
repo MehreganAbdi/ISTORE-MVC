@@ -1,16 +1,14 @@
 ﻿using I_STORE.Data.Enum;
-using System.ComponentModel.DataAnnotations;
 
-namespace I_STORE.Models
+namespace I_STORE.ViewModels
 {
-    public class Sneaker
+    public class CreateSneakerVM
     {
-        [Key]
         public int SneakerId { get; set; }
         public string Name { get; set; }
         public int Size { get; set; }
         public int Price { get; set; }
-        public string? Image { get; set; }
+        public IFormFile? Image { get; set; }
         public int Count { get; set; }
         public Company Company { get; set; }
     }

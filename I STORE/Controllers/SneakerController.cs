@@ -8,9 +8,11 @@ namespace I_STORE.Controllers
     public class SneakerController : Controller
     {
         private readonly ISneakerService _sneakerService;
-        public SneakerController(ISneakerService sneakerService)
+        private readonly IPhotoService _photoService;
+        public SneakerController(ISneakerService sneakerService, IPhotoService photoService)
         {
             _sneakerService = sneakerService;
+            _photoService = photoService;
         }
 
         public async Task<IActionResult> Index(string searching)
@@ -45,14 +47,32 @@ namespace I_STORE.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Sneaker sneaker)
+        public async Task<IActionResult> Create(CreateSneakerVM sneakerVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(sneaker);
+                var result = await _photoService.AddPhotoAsync(sneakerVM.Image);
+                var sneaker = new Sneaker()
+                {
+                    Company = sneakerVM.Company,
+                    Name = sneakerVM.Name,
+                    Size = sneakerVM.Size,
+                    Count = sneakerVM.Count,
+                    Image = result.Url.ToString(),
+                    Price = sneakerVM.Price,
+
+                };
+
+                _sneakerService.Add(sneaker);
+                return RedirectToAction("Index");
             }
-            _sneakerService.Add(sneaker);
-            return RedirectToAction("Index");
+            else
+            {
+                ModelState.AddModelError("", "Photo Upload Failed");
+            }
+
+            return View(sneakerVM);
+
         }
 
 

@@ -10,7 +10,7 @@ namespace I_STORE.Models
 
         public string ProductName { get; set; }
         public ProductCategory ProductCategory { get; set; }
-       
+        public string? Image { get; set; }
         public int Count { get; set; }
         public int Price { get; set; }
         public string? Size { get; set; }
