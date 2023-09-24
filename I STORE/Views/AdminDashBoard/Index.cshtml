@@ -1,13 +1,16 @@
 ﻿@using I_STORE.ViewModels;
 @model IEnumerable<PurchaseVM>
 @{
-    ViewData["Title"] = "Ready Purchases";
+    ViewData["Title"] = "All Ready Purchases";
 }
 <table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">UserName </th>
+            <th scope="col">Address</th>
+            <th scope="col">Purchased Item</th>
             <th scope="col">Detail</th>
             <th scope="col">Price</th>
 
@@ -22,8 +25,12 @@
         <tbody>
             <tr>
                 <th scope="row">@i</th>
+                <td>@item.User.Email</td>
+                <td>@item.User.UserName</td>
+                <td>@item.User.Address.FullAddress</td>
                 @if (item.Product == null)
                 {
+
                     <td>@item.Sneaker.Name</td>
                     <td>@item.Sneaker.Company</td>
                     <td>@item.Sneaker.Price</td>
@@ -45,6 +52,9 @@
     <thead>
         <tr>
             <th scope="col">*</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col">Total :</th>
             <th scope="col">@total</th>
