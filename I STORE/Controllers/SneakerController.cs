@@ -13,9 +13,19 @@ namespace I_STORE.Controllers
             _sneakerService = sneakerService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searching)
         {
             var allSneakers = await _sneakerService.GetAll();
+            if (searching == null)
+            {
+                return View(allSneakers);
+            }
+            allSneakers = allSneakers.Where(s => s.Name.Contains(searching) ||
+                                                s.Company.ToString().Contains(searching) ||
+                                                s.Size.ToString().Contains(searching) ||
+                                                s.Price.ToString().Contains(searching)).ToList();
+
+
             return View(allSneakers);
         }
 
