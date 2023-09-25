@@ -27,7 +27,7 @@ namespace I_STORE.Services
                 var uploadParams = new ImageUploadParams
                 {
                     File= new FileDescription(file.FileName , stream),
-                    Transformation = new Transformation().Height(300).Width(300).Crop("fill").Gravity("face")
+                    Transformation = new Transformation().Height(250).Width(300).Crop("crop").Gravity("face")
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }

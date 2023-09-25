@@ -1,11 +1,11 @@
 ﻿@using I_STORE.Data.Enum;
 @using I_STORE.ViewModels;
-@model SneakerVM
+@model CreateSneakerVM
 @{
     ViewData["Title"] = "Edit";
 }
 
-<form method="post" asp-action="Edit">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
     <input asp-for="SneakerId" type="hidden" value="@Model.SneakerId" class="form-control" />
     <div class="form-group">
         <label asp-for="Name">Name</label>
@@ -37,6 +37,12 @@
             <select asp-for="Company" onselect="@Model.Company" asp-items="@Html.GetEnumSelectList<Company>()">
             <option> - - select - - </option>
         </select>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image" type="file" class="form-control" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <br />
     <br />

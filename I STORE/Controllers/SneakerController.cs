@@ -80,7 +80,7 @@ namespace I_STORE.Controllers
         {
             var sneaker = await _sneakerService.GetByIdAsync(Id);
             if (sneaker == null) return RedirectToAction("Index");
-            var sneakerVM = new SneakerVM()
+            var sneakerVM = new CreateSneakerVM()
             {
                 SneakerId = Id,
                 Name = sneaker.Name,
@@ -94,26 +94,26 @@ namespace I_STORE.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SneakerVM sneakerVM)
+        public async Task<IActionResult> Edit(CreateSneakerVM sneakerVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var photoResult = await _photoService.AddPhotoAsync(sneakerVM.Image);
+
+                var sneaker = new Sneaker()
+                {
+                    SneakerId = sneakerVM.SneakerId,
+                    Name = sneakerVM.Name,
+                    Price = sneakerVM.Price,
+                    Company = sneakerVM.Company,
+                    Size = sneakerVM.Size,
+                    Count = sneakerVM.Count,
+                    Image = photoResult.Url.ToString()
+                };
+                _sneakerService.Update(sneaker);
                 return RedirectToAction("Index");
             }
-            var sneaker = new Sneaker()
-            {
-                SneakerId = sneakerVM.SneakerId,
-                Name = sneakerVM.Name,
-                Price = sneakerVM.Price,
-                Company = sneakerVM.Company,
-                Size = sneakerVM.Size,
-                Count = sneakerVM.Count
-            };
-            var result = _sneakerService.Update(sneaker);
-            if (result)
-            {
-                return RedirectToAction("Index");
-            }
+            
             return View(sneakerVM);
 
 
