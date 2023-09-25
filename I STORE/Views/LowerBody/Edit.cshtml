@@ -7,7 +7,7 @@
 }
 
 
-<form method="post" asp-action="Edit">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
     <input asp-for="ProductID" type="hidden" value="@Model.ProductID" class="form-control" />
     <div class="form-group">
         <label asp-for="ProductName">ProductName</label>
@@ -41,6 +41,12 @@
         </select>
     </div>
     <br />
+    <br />
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image" type="file" class="form-control" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
     <br />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
