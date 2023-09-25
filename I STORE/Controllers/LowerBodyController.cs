@@ -9,9 +9,11 @@ namespace I_STORE.Controllers
     public class LowerBodyController : Controller
     {
         private readonly ILowerBodyService _lowerBodyService;
-        public LowerBodyController(ILowerBodyService lowerBodyService)
+        private readonly IPhotoService _photoService;
+        public LowerBodyController(IPhotoService photoService , ILowerBodyService lowerBodyService)
         {
             _lowerBodyService = lowerBodyService;
+            _photoService = photoService;
         }
         public async Task<IActionResult> Index(string searching)
         {
@@ -42,13 +44,29 @@ namespace I_STORE.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductVM productVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var result = await _photoService.AddPhotoAsync(productVM.Image);
+
+                var product = new Product()
+                {
+                    Price = productVM.Price,
+                    ProductCategory = productVM.ProductCategory,
+                    ProductName = productVM.ProductName,
+                    Count = productVM.Count,
+                    Image = result.Url.ToString(),
+                    Size = productVM.Size
+                };
+            
+                _lowerBodyService.Add(product);
                 return RedirectToAction("Index", "LowerBody");
             }
-            _lowerBodyService.Add(product);
+            else
+            {
+                ModelState.AddModelError("", "Photo Failed To Upload");
+            }
             return RedirectToAction("Index", "LowerBody");
         }
 
@@ -73,23 +91,26 @@ namespace I_STORE.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ProductVM productVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var result = await _photoService.AddPhotoAsync(productVM.Image);
+
+                var product = new Product()
+                {
+                    ProductID = productVM.ProductID,
+                    Price = productVM.Price,
+                    Count = productVM.Count,
+                    Size = productVM.Size,
+                    ProductName = productVM.ProductName,
+                    ProductCategory = productVM.ProductCategory,
+                    Image = result.Url.ToString()
+                };
+                _lowerBodyService.Update(product);
                 return RedirectToAction("Index");
             }
-            var product = new Product()
+            else
             {
-                ProductID = productVM.ProductID,
-                Price = productVM.Price,
-                Count = productVM.Count,
-                Size = productVM.Size,
-                ProductName = productVM.ProductName,
-                ProductCategory = productVM.ProductCategory
-            };
-            var result = _lowerBodyService.Update(product);
-            if (result)
-            {
-                return RedirectToAction("Index", "LowerBody");
+                ModelState.AddModelError("", "Photo Failed To Upload");
             }
             return View(productVM);
         }
