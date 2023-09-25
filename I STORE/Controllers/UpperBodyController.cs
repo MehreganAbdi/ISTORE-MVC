@@ -1,6 +1,7 @@
 ﻿using I_STORE.Data.Enum;
 using I_STORE.Interfaces;
 using I_STORE.Models;
+using I_STORE.Services;
 using I_STORE.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,11 @@ namespace I_STORE.Controllers
     public class UpperBodyController : Controller
     {
         private readonly IUpperBodyService _upperBodyService;
-        public UpperBodyController(IUpperBodyService upperBodyService)
+        private readonly IPhotoService _photoService;
+        public UpperBodyController(IPhotoService photoService,IUpperBodyService upperBodyService)
         {
             _upperBodyService = upperBodyService;
+            _photoService = photoService;
         }
         public async Task<IActionResult> Index(string searching)
         {
@@ -47,14 +50,30 @@ namespace I_STORE.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductVM productVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var result = await _photoService.AddPhotoAsync(productVM.Image);
+                var product = new Product()
+                {
+                    Price = productVM.Price,
+                    Size = productVM.Size,
+                    Image = result.Url.ToString(),
+                    ProductCategory = productVM.ProductCategory,
+                    ProductName = productVM.ProductName,
+                    Count = productVM.Count
+                    
+                };
+
+                _upperBodyService.Add(product);
                 return RedirectToAction("Index", "UpperBody");
             }
-            _upperBodyService.Add(product);
-            return RedirectToAction("Index", "UpperBody");
+            else
+            {
+                ModelState.AddModelError("", "Photo Upload Failed");
+            }
+            return View(productVM);
         }
 
         public async Task<IActionResult> Edit(int Id)
@@ -70,6 +89,7 @@ namespace I_STORE.Controllers
                 ProductCategory = product.ProductCategory,
                 Count = product.Count,
                 Size = product.Size
+                
             };
 
             return View(productVM);
@@ -78,23 +98,27 @@ namespace I_STORE.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ProductVM productVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index");
-            }
-            var product = new Product()
-            {
-                ProductID = productVM.ProductID,
-                Price = productVM.Price,
-                Count = productVM.Count,
-                Size = productVM.Size,
-                ProductName = productVM.ProductName,
-                ProductCategory = productVM.ProductCategory
-            };
-            var result = _upperBodyService.Update(product);
-            if (result)
-            {
+                var result = await _photoService.AddPhotoAsync(productVM.Image);
+                var product = new Product()
+                {
+                    ProductID = productVM.ProductID,
+                    Price = productVM.Price,
+                    Size = productVM.Size,
+                    Image = result.Url.ToString(),
+                    ProductCategory = productVM.ProductCategory,
+                    ProductName = productVM.ProductName,
+                    Count = productVM.Count
+
+                };
+
+                _upperBodyService.Update(product);
                 return RedirectToAction("Index", "UpperBody");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Photo Upload Failed");
             }
             return View(productVM);
         }

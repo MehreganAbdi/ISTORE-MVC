@@ -8,7 +8,7 @@ namespace I_STORE.ViewModels
 
         public string ProductName { get; set; }
         public ProductCategory ProductCategory { get; set; }
-      
+        public IFormFile? Image { get; set; }
         public int Count { get; set; }
         public int Price { get; set; }
         public string? Size { get; set; }
