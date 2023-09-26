@@ -47,7 +47,9 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Create()
         {
+            
             return View();
+
         }
         [HttpPost]
         public async Task<IActionResult> Create(ProductVM productVM)

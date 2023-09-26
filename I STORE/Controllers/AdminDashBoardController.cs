@@ -15,5 +15,10 @@ namespace I_STORE.Controllers
             var model = await _adminDashBoardService.GetAllPurchases();
             return View(model);
         }
+
+        //public async Task<IActionResult> Status(int Id)
+        //{
+
+        //}
     }
 }
