@@ -1,4 +1,5 @@
-﻿using I_STORE.Models;
+﻿using I_STORE.Data.Enum;
+using I_STORE.Models;
 
 namespace I_STORE.ViewModels
 {
@@ -8,5 +9,6 @@ namespace I_STORE.ViewModels
         public Product? Product { get; set; }
         public Sneaker? Sneaker { get; set; }
         public int PurchaseId { get; set; }
+        public Status Status { get; set; }
     }
 }

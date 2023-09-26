@@ -22,7 +22,7 @@ namespace I_STORE.Services
                 if (product.Count > 0)
                 {
                     _context.Purchases.Add(purchase);
-                    product.Count--;
+                    
                     return Save();
                 }
                 return false;
@@ -33,7 +33,7 @@ namespace I_STORE.Services
                 if (sneaker.Count > 0)
                 {
                     _context.Purchases.Add(purchase);
-                    sneaker.Count--;
+                    
                     return Save();
                 }
                 return false;

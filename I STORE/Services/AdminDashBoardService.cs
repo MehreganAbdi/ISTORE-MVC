@@ -1,4 +1,5 @@
 ﻿using I_STORE.Data;
+using I_STORE.Data.Enum;
 using I_STORE.Interfaces;
 using I_STORE.Models;
 using I_STORE.ViewModels;
@@ -13,6 +14,13 @@ namespace I_STORE.Services
         {
             _context = context;
         }
+
+        public bool AcceptPurchase(Purchase purchase)
+        {
+            purchase.Status = Data.Enum.Status.Done;
+            return Save();
+        }
+
         public async Task<IEnumerable<PurchaseVM>> GetAllPurchases()
         {
             var model = new List<PurchaseVM>();
@@ -24,7 +32,18 @@ namespace I_STORE.Services
             return model;
         }
 
-        public Task<IEnumerable<PurchaseVM>> GetAllPurchasesByUserIdAsunc(string userId)
+        public async Task<IEnumerable<PurchaseVM>> GetAllPurchasesByUserIdAsunc(string userId)
+        {
+            var purchase = await _context.Purchases.Where(u => u.AppUserId == userId).ToListAsync();
+            var data = new List<PurchaseVM>();
+            foreach (var item in purchase)
+            {
+                data.Add(await GetPurchaseDetail(item));
+            }
+            return data;
+        }
+
+        public Task<Purchase> GetByIdAsync(int purchaseId)
         {
             throw new NotImplementedException();
         }
@@ -55,9 +74,15 @@ namespace I_STORE.Services
             }
         }
 
-        public bool RejectPurchase(int purchaseId)
+        public bool RejectPurchase(Purchase purchase)
         {
-            throw new NotImplementedException();
+            purchase.Status = Status.NotAvailable;
+            return Save();
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0 ? true : false;
         }
     }
 }

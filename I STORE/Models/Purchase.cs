@@ -14,7 +14,7 @@ namespace I_STORE.Models
         public int? ProductId { get; set; }
         [ForeignKey("AppUserId")]
         public string AppUserId { get; set; }
-        public Status Status { get; set; }
+        public Status Status { get; set; } = Status.Stall;
 
     }
 }

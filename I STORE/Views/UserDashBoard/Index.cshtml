@@ -10,6 +10,7 @@
             <th scope="col">Name</th>
             <th scope="col">Detail</th>
             <th scope="col">Price</th>
+            <th scope="col">Status</th>
 
         </tr>
     </thead>
@@ -27,6 +28,7 @@
                     <td>@item.Sneaker.Name</td>
                     <td>@item.Sneaker.Company</td>
                     <td>@item.Sneaker.Price</td>
+                    <td>@item.Status.ToString()</td>
                     total += item.Sneaker.Price;
                 }
                 else
