@@ -16,9 +16,11 @@ namespace I_STORE.Controllers
             return View(model);
         }
 
-        //public async Task<IActionResult> Status(int Id)
-        //{
-
-        //}
+        public async Task<IActionResult> Accept(int Id)
+        {
+            var purchase = _adminDashBoardService.GetByIdAsync(Id);
+            _adminDashBoardService.AcceptPurchase(await purchase);
+            return RedirectToAction("Index", "AdminDashBoard");
+        }
     }
 }

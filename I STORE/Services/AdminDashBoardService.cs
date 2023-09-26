@@ -17,7 +17,19 @@ namespace I_STORE.Services
 
         public bool AcceptPurchase(Purchase purchase)
         {
-            purchase.Status = Data.Enum.Status.Done;
+            if (purchase.SneakerId == null)
+            {
+                var product =  _context.Products.FirstOrDefault(i => i.ProductID == purchase.ProductId);
+                if (product.Count > 0)
+                {
+                    product.Count--;
+                    Save();
+                    purchase.Status = Data.Enum.Status.Done;
+                    return Save();
+                }
+                purchase.Status = Data.Enum.Status.NotAvailable;
+
+            }
             return Save();
         }
 
@@ -43,9 +55,9 @@ namespace I_STORE.Services
             return data;
         }
 
-        public Task<Purchase> GetByIdAsync(int purchaseId)
+        public async Task<Purchase> GetByIdAsync(int purchaseId)
         {
-            throw new NotImplementedException();
+            return await _context.Purchases.FirstOrDefaultAsync(i => i.PurchaseId == purchaseId);
         }
 
         public async Task<PurchaseVM> GetPurchaseDetail(Purchase purchase)
