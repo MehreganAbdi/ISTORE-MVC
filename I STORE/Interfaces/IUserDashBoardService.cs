@@ -15,6 +15,7 @@ namespace I_STORE.Interfaces
         Task<AppUser> GetUserByIdNoTracking(string Id);
         bool AddPurchase(Purchase purchase);
         bool RemovePurchase(Purchase purchsase);
+        Task<int> ClaculateTotal(string UserId);
         bool UpdatePurchase(Purchase purchase);
         bool Save();
 

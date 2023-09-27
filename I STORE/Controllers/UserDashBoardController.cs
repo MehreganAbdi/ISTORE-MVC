@@ -18,10 +18,12 @@ namespace I_STORE.Controllers
         {
             var userId = User.Identity.GetUserId();
             var model = await _userDashBoardService.GetPurchasesWithDetailsByUserIdAsync(userId);
+            var tot = _userDashBoardService.ClaculateTotal(userId);
             
             return View(model);
 
         }
+       
         public async Task<IActionResult> PurchaseProduct(int Id)
         {
             var userId = User.Identity.GetUserId();

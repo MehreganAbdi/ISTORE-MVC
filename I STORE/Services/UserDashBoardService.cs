@@ -123,5 +123,31 @@ namespace I_STORE.Services
             _context.Users.Update(user);
             return Save();
         }
+
+        public async Task<int> ClaculateTotal(string userId)
+        {
+            var donePurchases = _context.Purchases.Where(p => p.AppUserId == userId && p.Status == Data.Enum.Status.Done).ToList();
+            var donePurchasesVMs = new List<PurchaseVM>();
+            foreach (var item in donePurchases)
+            {
+                donePurchasesVMs.Add(await GetPurchaseVMByPuchase(item));
+            }
+            int tot = 0;
+            foreach (var item in donePurchasesVMs)
+            {
+                if (item.Sneaker == null)
+                {
+                    tot += item.Product.Price;
+                }
+                else
+                {
+                    tot += item.Sneaker.Price;
+                }
+            }
+            var user = _context.Users.FirstOrDefault(p => p.Id == userId);
+            user.CartTotalCost = tot;
+            Save();
+            return tot;
+        }
     }
 }

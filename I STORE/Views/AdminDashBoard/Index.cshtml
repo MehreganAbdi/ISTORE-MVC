@@ -49,7 +49,7 @@
                     <td>@item.Product.Price</td>
                     if (item.Status == Status.Done)
                     {
-                        total += item.Sneaker.Price;
+                        total += item.Product.Price;
                     }
                 }
                 @if (User.IsInRole("admin") && item.Status==Status.Stall)
