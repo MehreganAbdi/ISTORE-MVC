@@ -23,7 +23,7 @@
         <tbody>
             <tr>
                 <th scope="row">@i</th>
-                @if (item.Product == null)
+                @if (item.Sneaker != null)
                 {
                     <td>@item.Sneaker.Name</td>
                     <td>@item.Sneaker.Company</td>
@@ -36,6 +36,7 @@
                     <td>@item.Product.ProductName</td>
                     <td>@item.Product.ProductCategory</td>
                     <td>@item.Product.Price</td>
+                    <td>@item.Status.ToString()</td>
                     total += item.Product.Price;
                 }
 
@@ -47,6 +48,7 @@
     <thead>
         <tr>
             <th scope="col">*</th>
+            <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col">Total :</th>
             <th scope="col">@total</th>

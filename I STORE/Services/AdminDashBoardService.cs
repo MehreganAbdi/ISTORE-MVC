@@ -28,6 +28,7 @@ namespace I_STORE.Services
                     return Save();
                 }
                 purchase.Status = Data.Enum.Status.NotAvailable;
+                return Save();
 
             }
             return Save();
@@ -68,8 +69,10 @@ namespace I_STORE.Services
                 var sneaker = await _context.Sneakers.Where(s => s.SneakerId == purchase.SneakerId).FirstOrDefaultAsync();
                 var purchaseVM = new PurchaseVM()
                 {
+                    PurchaseId = purchase.PurchaseId,
                     User=user,
-                    Sneaker = sneaker
+                    Sneaker = sneaker,
+                    Status=purchase.Status
                 };
                 return purchaseVM;
             }
@@ -78,8 +81,11 @@ namespace I_STORE.Services
                 var product = await _context.Products.Where(p => p.ProductID == purchase.ProductId).FirstOrDefaultAsync();
                 var purchaseVM2 = new PurchaseVM()
                 {
+                    PurchaseId = purchase.PurchaseId,
                     User = user,
-                    Product = product
+                    Product = product,
+                    Status = purchase.Status
+
                 };
 
                 return purchaseVM2;

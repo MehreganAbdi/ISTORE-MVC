@@ -20,7 +20,16 @@ namespace I_STORE.Controllers
         {
             var purchase = _adminDashBoardService.GetByIdAsync(Id);
             _adminDashBoardService.AcceptPurchase(await purchase);
+
             return RedirectToAction("Index", "AdminDashBoard");
+        }
+        public async Task<IActionResult> Reject(int Id)
+        {
+            var purchase = _adminDashBoardService.GetByIdAsync(Id);
+            _adminDashBoardService.RejectPurchase(await purchase);
+
+            return RedirectToAction("Index", "AdminDashBoard");
+
         }
     }
 }

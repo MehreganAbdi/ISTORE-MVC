@@ -13,6 +13,7 @@
             <th scope="col">Purchased Item</th>
             <th scope="col">Detail</th>
             <th scope="col">Price</th>
+            <th scope="col"> Managment </th>
 
         </tr>
     </thead>
@@ -43,7 +44,14 @@
                     <td>@item.Product.Price</td>
                     total += item.Product.Price;
                 }
+                @if (User.IsInRole("admin"))
+                {
 
+                    <td>
+                        <a class="btn btn-primary" asp-area="" asp-controller="AdminDashBoard" asp-action="Accept" asp-route-id="@item.PurchaseId">Accept</a>
+                        <a class="btn btn-secondary" asp-area="" asp-controller="AdminDashBoard" asp-action="Reject" asp-route-id="@item.PurchaseId">Reject</a>
+                    </td>
+                }
 
             </tr>
         </tbody>
