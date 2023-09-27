@@ -83,7 +83,9 @@ namespace I_STORE.Services
                 var sneaker = await _context.Sneakers.Where(s => s.SneakerId == purchase.SneakerId).FirstOrDefaultAsync();
                 var purchaseVM = new PurchaseVM()
                 {
+                    Status=purchase.Status,
                     Sneaker = sneaker,
+                    User = user,
                     PurchaseId = purchase.PurchaseId
                 };
                 return purchaseVM;
@@ -91,7 +93,9 @@ namespace I_STORE.Services
             var product = await _context.Products.Where(p => p.ProductID == purchase.ProductId).FirstOrDefaultAsync();
             var purchaseVM2 = new PurchaseVM()
             {
+                Status = purchase.Status,
                 Product = product,
+                User = user,
                 PurchaseId = purchase.PurchaseId
             };
             return purchaseVM2;

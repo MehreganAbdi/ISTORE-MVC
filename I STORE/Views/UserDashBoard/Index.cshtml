@@ -1,4 +1,5 @@
-﻿@using I_STORE.ViewModels;
+﻿@using I_STORE.Data.Enum;
+@using I_STORE.ViewModels;
 @model IEnumerable<PurchaseVM>
 @{
     ViewData["Title"] = "Ready Purchases";
@@ -29,7 +30,11 @@
                     <td>@item.Sneaker.Company</td>
                     <td>@item.Sneaker.Price</td>
                     <td>@item.Status.ToString()</td>
-                    total += item.Sneaker.Price;
+                    if (item.Status == Status.Done)
+                    {
+                        total += item.Sneaker.Price;
+                    }
+
                 }
                 else
                 {
@@ -37,7 +42,10 @@
                     <td>@item.Product.ProductCategory</td>
                     <td>@item.Product.Price</td>
                     <td>@item.Status.ToString()</td>
-                    total += item.Product.Price;
+                    if (item.Status == Status.Done)
+                    {
+                        total += item.Sneaker.Price;
+                    }
                 }
 
 
@@ -57,3 +65,18 @@
     </thead>
 
 </table>
+
+
+<br />
+<br />
+<center>
+    @if (Model.Count() > 0)
+    {
+        var purchasee= Model.FirstOrDefault();
+        var tot = purchasee.User.CartTotalCost;
+         
+        <label>Total : @tot</label>
+        <br />
+        <a class="btn btn-primary" asp-action="ContinuePerchase" asp-controller="AdminDashBoard" asp-area="">Continue Purchase</a>
+    }
+</center>

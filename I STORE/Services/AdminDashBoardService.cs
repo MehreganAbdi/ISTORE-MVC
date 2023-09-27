@@ -3,6 +3,7 @@ using I_STORE.Data.Enum;
 using I_STORE.Interfaces;
 using I_STORE.Models;
 using I_STORE.ViewModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace I_STORE.Services
@@ -19,11 +20,23 @@ namespace I_STORE.Services
         {
             if (purchase.SneakerId == null)
             {
-                var product =  _context.Products.FirstOrDefault(i => i.ProductID == purchase.ProductId);
+                var product = _context.Products.AsNoTracking().FirstOrDefault(i => i.ProductID == purchase.ProductId);
                 if (product.Count > 0)
                 {
                     product.Count--;
-                    Save();
+                    _context.Update(product);
+                    var user = _context.Users.FirstOrDefault(s => s.Id == purchase.AppUserId);
+                    if (user.CartTotalCost == null)
+                    {
+                        user.CartTotalCost = product.Price;
+                        _context.Update(user);
+                    }
+                    else
+                    {
+                        user.CartTotalCost += product.Price;
+                        _context.Update(user);
+
+                    }
                     purchase.Status = Data.Enum.Status.Done;
                     return Save();
                 }
@@ -31,7 +44,30 @@ namespace I_STORE.Services
                 return Save();
 
             }
+            var sneaker = _context.Sneakers.FirstOrDefault(s => s.SneakerId == purchase.SneakerId);
+            if (sneaker.Count > 0)
+            {
+                sneaker.Count--;
+                _context.Update(sneaker);
+                var user = _context.Users.FirstOrDefault(s => s.Id == purchase.AppUserId);
+
+                if (user.CartTotalCost == null)
+                {
+                    user.CartTotalCost = sneaker.Price;
+                    _context.Update(user);
+                }
+                else
+                {
+                    user.CartTotalCost += sneaker.Price;
+                    _context.Update(user);
+
+                }
+                purchase.Status = Data.Enum.Status.Done;
+                return Save();
+            }
+            purchase.Status = Data.Enum.Status.NotAvailable;
             return Save();
+
         }
 
         public async Task<IEnumerable<PurchaseVM>> GetAllPurchases()
@@ -63,16 +99,16 @@ namespace I_STORE.Services
 
         public async Task<PurchaseVM> GetPurchaseDetail(Purchase purchase)
         {
-            var user = await _context.Users.Include(i=>i.Address).Where(p => p.Id == purchase.AppUserId).FirstOrDefaultAsync();
+            var user = await _context.Users.Include(i => i.Address).FirstOrDefaultAsync(p => p.Id == purchase.AppUserId);
             if (purchase.ProductId == null)
             {
                 var sneaker = await _context.Sneakers.Where(s => s.SneakerId == purchase.SneakerId).FirstOrDefaultAsync();
                 var purchaseVM = new PurchaseVM()
                 {
                     PurchaseId = purchase.PurchaseId,
-                    User=user,
+                    User = user,
                     Sneaker = sneaker,
-                    Status=purchase.Status
+                    Status = purchase.Status
                 };
                 return purchaseVM;
             }
