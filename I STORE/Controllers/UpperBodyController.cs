@@ -1,8 +1,8 @@
-﻿using I_STORE.Data.Enum;
-using I_STORE.Interfaces;
-using I_STORE.Models;
-using I_STORE.Services;
-using I_STORE.ViewModels;
+﻿using Context.Data.Enum;
+using Application.Interfaces;
+using Context.Models;
+using Application.Services;
+using Context.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace I_STORE.Controllers

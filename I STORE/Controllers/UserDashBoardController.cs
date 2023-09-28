@@ -1,9 +1,9 @@
-﻿using I_STORE.Interfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
-using I_STORE.ViewModels;
-using I_STORE.Models;
+using Context.ViewModels;
+using Context.Models;
 
 namespace I_STORE.Controllers
 {

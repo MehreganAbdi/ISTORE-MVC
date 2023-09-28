@@ -1,4 +1,4 @@
-﻿using I_STORE.Interfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace I_STORE.Controllers

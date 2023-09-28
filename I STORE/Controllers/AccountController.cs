@@ -1,6 +1,6 @@
-﻿using I_STORE.Data;
-using I_STORE.Models;
-using I_STORE.ViewModels;
+﻿using Context.Data;
+using Context.Models;
+using Context.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

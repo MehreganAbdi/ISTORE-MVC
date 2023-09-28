@@ -1,6 +1,6 @@
-﻿using I_STORE.Interfaces;
-using I_STORE.Models;
-using I_STORE.ViewModels;
+﻿using Application.Interfaces;
+using Context.Models;
+using Context.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace I_STORE.Controllers
