@@ -36,6 +36,10 @@
                                 <a class="btn btn-outline-success float right" asp-controller="UserDashBoard" asp-action="PurchaseProduct" asp-route-id="@Model.ProductID">Purchase</a>
 
                             }
+                            else if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="btn btn-outline-success float right" asp-controller="Account" asp-action="Login">Purchase</a>
+                            }
                         </ul>
                     </p>
                 </div>

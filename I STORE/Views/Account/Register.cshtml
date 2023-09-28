@@ -47,12 +47,17 @@
                         <input asp-for="ConfirmPassword" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
+                    <br />
+                    <br />
 
                     <div class="form-group">
                         <input class="btn btn-outline-success float-right" type="submit" value="Sign up" />
-                        <a class="btn btn-outline-secondary" asp-controller="Book" asp-action="Index">Cancel</a>
+                        <a class="btn btn-outline-secondary" asp-controller="Sneaker" asp-action="Index">Cancel</a>
                     </div>
                 </form>
+            <small>
+                Already Have An Account ? <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+            </small>
             </div>
         </div>
     </div>
