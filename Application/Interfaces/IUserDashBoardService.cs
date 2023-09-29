@@ -18,6 +18,7 @@ namespace Application.Interfaces
         Task<int> ClaculateTotal(string UserId);
         bool UpdatePurchase(Purchase purchase);
         bool Save();
-
+        bool CancelSneaker(int Id);
+        bool CancelProduct(int Id);
     }
 }

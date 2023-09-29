@@ -150,5 +150,21 @@ namespace Application.Services
             Save();
             return tot;
         }
+
+        public bool CancelSneaker(int Id)
+        {
+            var sneaker = _context.Sneakers.FirstOrDefault(s => s.SneakerId == Id);
+            if (sneaker == null) return false;
+            sneaker.Count+=1;
+            return Save();
+        }
+
+        public bool CancelProduct(int Id)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductID == Id);
+            if (product == null) return false;
+            product.Count += 1;
+            return Save();
+        }
     }
 }

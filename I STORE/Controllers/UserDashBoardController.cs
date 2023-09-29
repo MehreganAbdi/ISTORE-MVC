@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 using Context.ViewModels;
 using Context.Models;
+using System.Runtime.CompilerServices;
+using Context.Data.Enum;
 
 namespace I_STORE.Controllers
 {
@@ -19,11 +21,11 @@ namespace I_STORE.Controllers
             var userId = User.Identity.GetUserId();
             var model = await _userDashBoardService.GetPurchasesWithDetailsByUserIdAsync(userId);
             var tot = _userDashBoardService.ClaculateTotal(userId);
-            
+
             return View(model);
 
         }
-       
+
         public async Task<IActionResult> PurchaseProduct(int Id)
         {
             var userId = User.Identity.GetUserId();
@@ -34,8 +36,8 @@ namespace I_STORE.Controllers
             };
 
             _userDashBoardService.AddPurchase(purchase);
-            return RedirectToAction("Index", "UserDashBoard"); 
-        } 
+            return RedirectToAction("Index", "UserDashBoard");
+        }
         public async Task<IActionResult> PurchaseSneaker(int Id)
         {
             var userId = User.Identity.GetUserId();
@@ -61,9 +63,9 @@ namespace I_STORE.Controllers
             };
             return View(VModel);
         }
-        
-        
-        
+
+
+
         [HttpPost]
         public async Task<IActionResult> EditProfile(EditProfVM editProfVM)
         {
@@ -82,6 +84,34 @@ namespace I_STORE.Controllers
             return View(editProfVM);
         }
 
+        public async Task<IActionResult> CancelPurchase(int Id)//Purchase Id
+        {
+            var purchase = await _userDashBoardService.GetPurchaseById(Id);
+            if (purchase == null)
+            {
+                return RedirectToAction("Index", "UserDashBoard");
+            }
 
+            if (purchase.Status == Status.Done)
+            {
+                
+                if (purchase.SneakerId != null)//Sneaker Cancelation
+                {
+                    _userDashBoardService.CancelSneaker((int)purchase.SneakerId);
+                    _userDashBoardService.RemovePurchase(purchase);
+                    return RedirectToAction("Index", "UserDashBoard");
+                }
+
+                else//Product Cancelation
+                {
+                    _userDashBoardService.CancelProduct((int)purchase.ProductId);
+                    _userDashBoardService.RemovePurchase(purchase);
+                    return RedirectToAction("Index", "UserDashBoard");
+                }
+
+            }
+            _userDashBoardService.RemovePurchase(purchase);
+            return RedirectToAction("Index", "UserDashBoard");
+        }
     }
 }

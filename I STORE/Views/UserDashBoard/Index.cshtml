@@ -12,7 +12,7 @@
             <th scope="col">Detail</th>
             <th scope="col">Price</th>
             <th scope="col">Status</th>
-
+            <th scope="col"> Cancel </th>
         </tr>
     </thead>
     @{
@@ -34,7 +34,7 @@
                     {
                         total += item.Sneaker.Price;
                     }
-
+                    <td><a class="dropdown-item" asp-action="CancelPurchase" asp-controller="UserDashBoard" asp-route-id="@item.PurchaseId">Cancel </a></td>
                 }
                 else
                 {
@@ -46,6 +46,8 @@
                     {//
                         total += item.Product.Price;
                     }
+                    <td><a class="dropdown-item" asp-action="CancelPurchase" asp-controller="UserDashBoard" asp-route-id="@item.PurchaseId">Cancel </a></td>
+
                 }
 
 
@@ -68,9 +70,14 @@
 
 
 <br />
+
 <br />
 <center>
-    @if (Model.Count() > 0)
+
+<p>
+* if status is ACCEPTED that means we calculate that item
+</p>
+@if (Model.Count() > 0)
     {
 
       

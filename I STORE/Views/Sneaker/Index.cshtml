@@ -24,12 +24,12 @@
 <center>
     @using (Html.BeginForm("Index", "Sneaker", FormMethod.Get))
     {
-       
+
         @Html.TextBox("searching")
         <br />
         <br />
         <input type="image" src="~/icons/search-3-32.png" style="width:40px; padding:5px; border-radius:20%" value="Search" class="btn-primary" />
-        
+
     }
 </center>
 <div class="container">
@@ -39,7 +39,7 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            if (item.Count > 0 && !(User.IsInRole("admin")))
+            if (!(User.IsInRole("admin")))
             {
 
                 <div class="col-md-4">
@@ -61,7 +61,21 @@
 
 
                                 </div>
-                                <small class="text-muted">Left : @item.Count</small>
+                                @{
+                                    var left = item.Count.ToString();
+                                    if (item.Count == 0)
+                                    {
+                                        left = "Out Of Stock";
+                                        <small class="text-muted"> @left</small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">Left : @left</small>
+                                    }
+
+
+
+                                }
                             </div>
                         </div>
                     </div>

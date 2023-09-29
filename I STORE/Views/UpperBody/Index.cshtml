@@ -66,7 +66,21 @@
                                     <a type="button" class="btn btn-sm btn-outline-secondary" asp-controller="UpperBody" asp-action="Detail" asp-route-id="@item.ProductID">View</a>
 
                                 </div>
-                                <small class="text-muted">Left : @item.Count</small>
+                                @{
+                                    var left = item.Count.ToString();
+                                    if (item.Count == 0)
+                                    {
+                                        left = "Out Of Stock";
+                                        <small class="text-muted"> @left</small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">Left : @left</small>
+                                    }
+
+
+
+                                }
                             </div>
                         </div>
                     </div>
