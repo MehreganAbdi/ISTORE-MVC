@@ -69,7 +69,9 @@
                     }
                     else if( item.Status == Status.NotAvailable)
                     {
-                        <td >@item.Status</td>
+                        <td >@item.Status |
+                        <a class="btn btn-primary" style="margin-bottom:3px;" asp-area="" asp-controller="AdminDashBoard" asp-action="Accept" asp-route-id="@item.PurchaseId">Accept</a>
+                        </td>
                     }
                     else
                     {
