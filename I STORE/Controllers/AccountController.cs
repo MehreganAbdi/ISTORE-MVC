@@ -3,6 +3,10 @@ using Context.Models;
 using Context.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using RestSharp;
+using System.Net;
 
 namespace I_STORE.Controllers
 {
@@ -115,6 +119,46 @@ namespace I_STORE.Controllers
         {
             await _signinManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult GoogleOAuth(string code)
+        {
+            if (code != null)
+            {
+                var client = new RestClient("https://www.googleapis.com/oauth2/v4/token");
+                var request = new RestRequest(Method.Post.ToString());
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                request.AddParameter("grant_type", "authorization_code");
+                request.AddParameter("code", code);
+                request.AddParameter("redirect_uri", "https://localhost:7141/Account/GoogleOAuth");
+
+                request.AddParameter("client_id", "Enter your clientid here");
+                request.AddParameter("client_secret", "Enter your client secret");
+
+                var response = client.Execute(request);
+                var content = response.Content;
+                var res = (JObject)JsonConvert.DeserializeObject(content);
+                var client2 = new RestClient("https://www.googleapis.com/oauth2/v1/userinfo");
+                client2.AddDefaultHeader("Authorization", "Bearer " + res["access_token"]);
+
+                request = new RestRequest(Method.Get.ToString());
+
+
+                var response2 = client2.Execute(request);
+
+                var content2 = response2.Content;
+
+                var user = (JObject)JsonConvert.DeserializeObject(content2);
+                return RedirectToAction("Index", "Home");
+
+            }
+            else
+            {
+                ViewBag.ReturnData = "";
+            }
+
+
+            return View();
         }
     }
 }
