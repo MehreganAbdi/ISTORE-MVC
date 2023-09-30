@@ -36,7 +36,7 @@
 </center>
 
 <div class="container">
-   
+
     <br />
     <br />
 
@@ -55,7 +55,16 @@
                                 <br>
                                 Size  : @item.Size
                                 <br />
-                                price : @item.Price
+                                @if (item.OFF == null || item.OFF == 0)
+                                {
+                                    <span>price: @item.Price</span>
+                                }
+                                else
+                                {
+
+                                    var priceOff = (item.Price - (item.Price * (item.OFF)) / 100);
+                                    <span>price :<s>@item.Price</s> @priceOff</span>
+                                }
                                 <br />
 
                             </p>
@@ -100,7 +109,16 @@
                                 <br>
                                 Size  : @item.Size
                                 <br />
-                                price : @item.Price
+                                @if (item.OFF == null || item.OFF == 0)
+                                {
+                                    <span>price: @item.Price</span>
+                                }
+                                else
+                                {
+
+                                    var priceOff = (item.Price - (item.Price * (item.OFF)) / 100);
+                                    <span>price :<s>@item.Price</s> @priceOff</span>
+                                }
                                 <br />
 
                             </p>

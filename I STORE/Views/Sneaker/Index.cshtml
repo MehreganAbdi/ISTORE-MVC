@@ -52,7 +52,18 @@
                                 <h6>By : @item.Company</h6>
                                 Size  : @item.Size
                                 <br />
-                                price : @item.Price
+                                @if (item.OFF == null || item.OFF == 0)
+                                {
+                                    <span>price: @item.Price</span>
+                                }
+                                else
+                                {
+
+                                    var priceOff = (item.Price - (item.Price * (item.OFF)) / 100);
+                                    <span>price :<s>@item.Price</s> @priceOff</span>
+                                }
+
+
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
@@ -94,7 +105,15 @@
                                 <h6>By : @item.Company</h6>
                                 Size  : @item.Size
                                 <br />
-                                price : @item.Price
+                                @if (item.OFF == null || item.OFF == 0)
+                                {
+                                    <span>price: @item.Price</span>
+                                }
+                                else
+                                {
+                                    var priceOff = (item.Price - (item.Price * (item.OFF))/100);
+                                    <span>price :<s>@item.Price</s> @priceOff</span>
+                                }
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">

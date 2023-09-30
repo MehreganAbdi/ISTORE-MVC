@@ -44,10 +44,16 @@
     <br />
     <div class="form-group">
         <label asp-for="Image">Image</label>
-        <input asp-for="Image" type="file" class="form-control" >
+        <input asp-for="Image" type="file" value="@Model.Image" class="form-control" >
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <br />
+    <br />
+    <div class="form-group">
+        <label asp-for="OFF">OFF</label>
+        <input asp-for="OFF" type="number" value="@Model.OFF" class="form-control" placeholder="OFF">
+        <span asp-validation-for="OFF" class="text-danger"></span>
+    </div>
     <br />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -28,11 +28,22 @@
                 {
                     <td>@item.Sneaker.Name</td>
                     <td>@item.Sneaker.Company</td>
-                    <td>@item.Sneaker.Price</td>
+                    <td>
+                        @if (item.Sneaker.OFF == null || item.Sneaker.OFF == 0)
+                        {
+                            <span>@item.Sneaker.Price</span>
+                        }
+                        else
+                        {
+
+                            var priceOff = (item.Sneaker.Price - (item.Sneaker.Price * (item.Sneaker.OFF)) / 100);
+                            <span><s>@item.Sneaker.Price</s> @priceOff</span>
+                        }
+                    </td>
                     <td>@item.Status.ToString()</td>
                     if (item.Status == Status.Done)
                     {
-                        total += item.Sneaker.Price;
+                        total += item.Sneaker.Price - (item.Sneaker.OFF == null || item.Sneaker.OFF == 0 ? 0 : ((item.Sneaker.Price*(int)item.Sneaker.OFF)/100));
                     }
                     <td><a class="dropdown-item" asp-action="CancelPurchase" asp-controller="UserDashBoard" asp-route-id="@item.PurchaseId">Cancel </a></td>
                 }
@@ -40,11 +51,22 @@
                 {
                     <td>@item.Product.ProductName</td>
                     <td>@item.Product.ProductCategory</td>
-                    <td>@item.Product.Price</td>
+                    <td>
+                        @if (item.Product.OFF == null || item.Product.OFF == 0)
+                        {
+                            <span>@item.Product.Price</span>
+                        }
+                        else
+                        {
+
+                            var priceOff = (item.Product.Price - (item.Product.Price * (item.Product.OFF)) / 100);
+                            <span><s>@item.Product.Price</s> @priceOff</span>
+                        }
+                    </td>
                     <td>@item.Status.ToString()</td>
                     if (item.Status == Status.Done)
                     {//
-                        total += item.Product.Price;
+                        total += item.Product.Price - (item.Product.OFF == null || item.Product.OFF == 0 ? 0 : ((item.Product.Price * (int)item.Product.OFF) / 100));
                     }
                     <td><a class="dropdown-item" asp-action="CancelPurchase" asp-controller="UserDashBoard" asp-route-id="@item.PurchaseId">Cancel </a></td>
 
@@ -74,13 +96,13 @@
 <br />
 <center>
 
-<p>
-* if status is ACCEPTED that means we calculate that item
-</p>
-@if (Model.Count() > 0)
+    <p>
+        * if status is ACCEPTED that means we calculate that item
+    </p>
+    @if (Model.Count() > 0)
     {
 
-      
+
         <label>Your Total : @Model.FirstOrDefault().User.CartTotalCost</label>
         <br />
         <a class="btn btn-primary" asp-action="ContinuePurchase" asp-controller="AdminDashBoard" asp-area="">Continue Purchase</a>

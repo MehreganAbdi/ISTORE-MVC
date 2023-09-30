@@ -14,5 +14,6 @@ namespace Context.Models
         public int Count { get; set; }
         public int Price { get; set; }
         public string? Size { get; set; }
+        public int? OFF { get; set; }
     }   
 }

@@ -13,5 +13,6 @@ namespace Context.Models
         public string? Image { get; set; }
         public int Count { get; set; }
         public Company Company { get; set; }
+        public int? OFF { get; set; }
     }
 }

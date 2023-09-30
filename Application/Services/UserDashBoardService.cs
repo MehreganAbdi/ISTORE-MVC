@@ -138,11 +138,11 @@ namespace Application.Services
             {
                 if (item.Sneaker == null)
                 {
-                    tot += item.Product.Price;
+                    tot += item.Product.Price - (item.Product.OFF==null? 0 : item.Product.Price*(int)item.Product.OFF / 100);
                 }
                 else
                 {
-                    tot += item.Sneaker.Price;
+                    tot += item.Sneaker.Price - (item.Sneaker.OFF == null ? 0 : item.Sneaker.Price * (int)item.Sneaker.OFF / 100);
                 }
             }
             var user = _context.Users.FirstOrDefault(p => p.Id == userId);

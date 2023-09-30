@@ -57,7 +57,8 @@ namespace I_STORE.Controllers
                     ProductName = productVM.ProductName,
                     Count = productVM.Count,
                     Image = result.Url.ToString(),
-                    Size = productVM.Size
+                    Size = productVM.Size,
+                    OFF= 0
                 };
             
                 _lowerBodyService.Add(product);
@@ -83,6 +84,7 @@ namespace I_STORE.Controllers
                 ProductCategory = product.ProductCategory,
                 Count = product.Count,
                 Size = product.Size
+                ,OFF = product.OFF
             };
 
             return View(productVM);
@@ -103,7 +105,8 @@ namespace I_STORE.Controllers
                     Size = productVM.Size,
                     ProductName = productVM.ProductName,
                     ProductCategory = productVM.ProductCategory,
-                    Image = result.Url.ToString()
+                    Image = result.Url.ToString(),
+                    OFF = productVM.OFF
                 };
                 _lowerBodyService.Update(product);
                 return RedirectToAction("Index");

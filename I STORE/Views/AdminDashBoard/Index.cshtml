@@ -35,10 +35,22 @@
 
                     <td>@item.Sneaker.Name</td>
                     <td>@item.Sneaker.Company</td>
-                    <td>@item.Sneaker.Price</td>
+                    <td>
+                        @if (item.Sneaker.OFF == null || item.Sneaker.OFF == 0)
+                        {
+                            <span>@item.Sneaker.Price</span>
+                        }
+                        else
+                        {
+
+                            var priceOff = (item.Sneaker.Price - (item.Sneaker.Price * (item.Sneaker.OFF)) / 100);
+                            <span><s>@item.Sneaker.Price</s> @priceOff</span>
+                        }
+                    </td>
                     if (item.Status == Status.Done)
                     {
-                        total += item.Sneaker.Price;
+                        total += item.Sneaker.Price - (item.Sneaker.OFF == null || item.Sneaker.OFF == 0 ? 0 : ((item.Sneaker.Price * (int)item.Sneaker.OFF) / 100));
+
                     }
 
                 }
@@ -46,18 +58,30 @@
                 {
                     <td>@item.Product.ProductName</td>
                     <td>@item.Product.ProductCategory</td>
-                    <td>@item.Product.Price</td>
+                    <td>
+                        @if (item.Product.OFF == null || item.Product.OFF == 0)
+                        {
+                            <span>@item.Product.Price</span>
+                        }
+                        else
+                        {
+
+                            var priceOff = (item.Product.Price - (item.Product.Price * (item.Product.OFF)) / 100);
+                            <span><s>@item.Product.Price</s> @priceOff</span>
+                        }
+                    </td>
                     if (item.Status == Status.Done)
                     {
-                        total += item.Product.Price;
+                        total += item.Product.Price - (item.Product.OFF == null || item.Product.OFF == 0 ? 0 : ((item.Product.Price * (int)item.Product.OFF) / 100));
+
                     }
                 }
-                @if (User.IsInRole("admin") && item.Status==Status.Stall)
+                @if (User.IsInRole("admin") && item.Status == Status.Stall)
                 {
 
                     <td>
                         <a class="btn btn-primary" style="margin-bottom:3px;" asp-area="" asp-controller="AdminDashBoard" asp-action="Accept" asp-route-id="@item.PurchaseId">Accept</a>
-                        
+
                         <a class="btn btn-secondary" asp-area="" asp-controller="AdminDashBoard" asp-action="Reject" asp-route-id="@item.PurchaseId">Reject</a>
                     </td>
                 }
@@ -65,17 +89,18 @@
                 {
                     if (item.Status == Status.Stall)
                     {
-                        <td >@item.Status</td>
+                        <td>@item.Status</td>
                     }
-                    else if( item.Status == Status.NotAvailable)
+                    else if (item.Status == Status.NotAvailable)
                     {
-                        <td >@item.Status |
-                        <a class="btn btn-primary" style="margin-bottom:3px;" asp-area="" asp-controller="AdminDashBoard" asp-action="Accept" asp-route-id="@item.PurchaseId">Accept</a>
+                        <td>
+                            @item.Status |
+                            <a class="btn btn-primary" style="margin-bottom:3px;" asp-area="" asp-controller="AdminDashBoard" asp-action="Accept" asp-route-id="@item.PurchaseId">Accept</a>
                         </td>
                     }
                     else
                     {
-                        <td >@item.Status</td>
+                        <td>@item.Status</td>
                     }
                 }
 

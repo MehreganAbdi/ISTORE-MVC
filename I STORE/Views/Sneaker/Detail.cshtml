@@ -34,7 +34,18 @@
                         <ul>
                             <li>Size :  @Model.Size</li>
                             <li>Left : @Model.Count</li>
-                            <li>Price : @Model.Price</li>
+                            <li>
+                                @if (Model.OFF == null || Model.OFF == 0)
+                                {
+                                    <span>price: @Model.Price</span>
+                                }
+                                else
+                                {
+                                    var priceOff = (Model.Price - (Model.Price * (Model.OFF)) / 100);
+                                    <span>price :<s>@Model.Price</s> @priceOff</span>
+                                }
+
+                            </li>
                             @if (User.IsInRole("user") && User.Identity.IsAuthenticated)
                             {
                                 <a class="btn btn-outline-success float right" asp-controller="UserDashBoard" asp-action="PurchaseSneaker" asp-route-id="@Model.SneakerId">Purchase</a>

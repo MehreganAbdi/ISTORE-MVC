@@ -10,5 +10,6 @@ namespace Context.ViewModels
         public int Price { get; set; }
         public int Count { get; set; }
         public Company Company { get; set; }
+        public int? OFF { get; set; }
     }
 }

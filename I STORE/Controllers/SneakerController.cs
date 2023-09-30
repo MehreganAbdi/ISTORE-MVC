@@ -60,7 +60,7 @@ namespace I_STORE.Controllers
                     Count = sneakerVM.Count,
                     Image = result.Url.ToString(),
                     Price = sneakerVM.Price,
-
+                    OFF = 0
                 };
 
                 _sneakerService.Add(sneaker);
@@ -87,7 +87,8 @@ namespace I_STORE.Controllers
                 Company = sneaker.Company,
                 Count = sneaker.Count,
                 Price = sneaker.Price,
-                Size = sneaker.Size
+                Size = sneaker.Size,
+                OFF = sneaker.OFF
             };
 
             return View(sneakerVM);
@@ -109,6 +110,7 @@ namespace I_STORE.Controllers
                     Size = sneakerVM.Size,
                     Count = sneakerVM.Count,
                     Image = photoResult.Url.ToString()
+                    ,OFF=sneakerVM.OFF
                 };
                 _sneakerService.Update(sneaker);
                 return RedirectToAction("Index");
