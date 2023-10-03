@@ -128,6 +128,11 @@ namespace Application.Services
             }
         }
 
+        public Task<AppUser> GetUserByIdAsync(string Id)
+        {
+            return _context.Users.FirstOrDefaultAsync(a => a.Id == Id);
+        }
+
         public bool RejectPurchase(Purchase purchase)
         {
             purchase.Status = Status.NotAvailable;
