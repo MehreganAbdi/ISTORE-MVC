@@ -35,12 +35,20 @@ namespace I_STORE.Controllers
         }
         public async Task<IActionResult> Delete(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             _lowerBodyService.Remove(await _lowerBodyService.GetByIdAsync(Id));
             return RedirectToAction("Index", "LowerBody");
         }
 
         public async Task<IActionResult> Create()
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         [HttpPost]
@@ -73,6 +81,10 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Edit(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var product = await _lowerBodyService.GetByIdAsync(Id);
 
             var productVM = new ProductVM()

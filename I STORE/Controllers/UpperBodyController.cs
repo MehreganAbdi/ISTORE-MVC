@@ -36,18 +36,29 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Detail(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var product = await _upperBodyService.GetByIdAsync(Id);
             return View(product);
         }
         public async Task<IActionResult> Delete(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             _upperBodyService.Remove(await _upperBodyService.GetByIdAsync(Id));
             return RedirectToAction("Index", "UpperBody");
         }
 
         public async Task<IActionResult> Create()
         {
-            
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
 
         }

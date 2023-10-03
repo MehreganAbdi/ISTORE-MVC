@@ -43,6 +43,10 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Create()
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -78,6 +82,10 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Edit(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var sneaker = await _sneakerService.GetByIdAsync(Id);
             if (sneaker == null) return RedirectToAction("Index");
             var sneakerVM = new CreateSneakerVM()
@@ -123,6 +131,10 @@ namespace I_STORE.Controllers
 
         public async Task<IActionResult> Delete(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (_sneakerService.Remove(await _sneakerService.GetByIdAsync(Id)))
             {
                 return RedirectToAction("Index");

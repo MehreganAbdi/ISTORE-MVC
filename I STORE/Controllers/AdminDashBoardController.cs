@@ -14,12 +14,20 @@ namespace I_STORE.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = await _adminDashBoardService.GetAllPurchases();
             return View(model);
         }
 
         public async Task<IActionResult> Accept(int Id)
         {
+            if(!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var purchase = await _adminDashBoardService.GetByIdAsync(Id);
             _adminDashBoardService.AcceptPurchase(purchase);
             var user = await _adminDashBoardService.GetUserByIdAsync(purchase.AppUserId);
@@ -28,6 +36,10 @@ namespace I_STORE.Controllers
         }
         public async Task<IActionResult> Reject(int Id)
         {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("user"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var purchase = _adminDashBoardService.GetByIdAsync(Id);
             _adminDashBoardService.RejectPurchase(await purchase);
 
