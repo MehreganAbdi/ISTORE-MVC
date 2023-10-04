@@ -25,6 +25,13 @@ namespace I_STORE
             builder.Services.AddScoped<IAdminDashBoardService, AdminDashBoardService>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.Configure<CloudinarySetup>(builder.Configuration.GetSection("CloudinarySetup"));
+            var configuration = builder.Configuration;
+            //builder.Services.AddAuthentication().AddGoogle(
+            //    options =>
+            //    {
+            //        options.ClientId = configuration["Authentication:Google:ClientId"];
+            //        options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+            //    });
 
 
 
@@ -50,8 +57,8 @@ namespace I_STORE
                 //SeedData.SneakerSeedData(app);
             }
 
-                // Configure the HTTP request pipeline.
-                if (!app.Environment.IsDevelopment())
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

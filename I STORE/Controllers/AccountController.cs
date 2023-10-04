@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Authorization;
 
 namespace I_STORE.Controllers
 {
@@ -112,8 +113,13 @@ namespace I_STORE.Controllers
             return RedirectToAction("Index", "Home");
 
 
-        }
 
+        }
+        [Authorize]
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
 
         [HttpGet]
