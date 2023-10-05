@@ -23,8 +23,12 @@ namespace I_STORE
             builder.Services.AddScoped<ILowerBodyService, LowerBodyService>();
             builder.Services.AddScoped<IUserDashBoardService, UserDashBoardService>();
             builder.Services.AddScoped<IAdminDashBoardService, AdminDashBoardService>();
+            builder.Services.AddScoped<IEventRepository, EventRepository>();
+
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.Configure<CloudinarySetup>(builder.Configuration.GetSection("CloudinarySetup"));
+            
+            
             var configuration = builder.Configuration;
             //builder.Services.AddAuthentication().AddGoogle(
             //    options =>

@@ -12,8 +12,7 @@ namespace Context.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
-        public DateTime TimeRemaining { get; set; }
+        public DateTime? TimeRemaining { get; set; }
         public IEnumerable<Sneaker>? SneakerEvents { get; set; }
         public IEnumerable<Product>? ProductsEvents { get; set; }
     }

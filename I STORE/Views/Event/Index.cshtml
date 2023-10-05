@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Event>
+@{
+    ViewData["Title"] = "Events";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Detail</th>
+            <th scope="col">Price</th>
+            <th scope="col">Status</th>
+            <th scope="col"> Cancel </th>
+        </tr>
+    </thead>
+    @{
+        var i = 1;
+    }
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@i</th>
+                <th scope="row">@item.Name</th>
+                <th scope="row"><a asp-controller="Event" asp-action="PSDetail" asp-area="" asp-route-id="@item.Id">Event PS</a></th>
+            </tr>
+        </tbody>
+        i++;
+    }
+</table>
