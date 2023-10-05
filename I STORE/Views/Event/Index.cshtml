@@ -9,9 +9,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Detail</th>
-            <th scope="col">Price</th>
-            <th scope="col">Status</th>
-            <th scope="col"> Cancel </th>
+            <th scope="col"> Delete</th>
         </tr>
     </thead>
     @{
@@ -24,6 +22,7 @@
                 <th scope="row">@i</th>
                 <th scope="row">@item.Name</th>
                 <th scope="row"><a asp-controller="Event" asp-action="PSDetail" asp-area="" asp-route-id="@item.Id">Event PS</a></th>
+                <th scope="row"><a asp-controller="Event" asp-action="Delete" asp-area="" asp-route-id="@item.Id">Delete Event</a></th>
             </tr>
         </tbody>
         i++;
