@@ -22,8 +22,8 @@ namespace I_STORE.Controllers
         {
             var sneakers = await _eventRepository.GetSneakers();
             var products = await _eventRepository.GetProducts();
-            ViewData["Sneakers"] = new MultiSelectList(sneakers, "Id", "Name");
-            ViewData["Products"] = new MultiSelectList(products, "Id", "Name");
+            ViewData["Sneakers"] = new MultiSelectList(sneakers, "SneakerId", "Name");
+            ViewData["Products"] = new MultiSelectList(products, "ProductID", "ProductName");
             var eventt = new Event();
             return View(eventt);
         }
