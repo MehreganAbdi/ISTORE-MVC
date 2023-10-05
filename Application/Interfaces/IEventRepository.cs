@@ -1,4 +1,5 @@
 ﻿using Context.Models;
+using Context.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Application.Interfaces
         bool Save();
         Task<bool> SaveAsync();
         bool Update(Event eventt);
-
+        Task<IEnumerable<Sneaker>> GetSneakers();
+        Task<IEnumerable<Product>> GetProducts();
     }
 }

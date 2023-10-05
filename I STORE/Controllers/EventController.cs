@@ -2,6 +2,7 @@
 using Context.Models;
 using Context.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace I_STORE.Controllers
 {
@@ -19,6 +20,10 @@ namespace I_STORE.Controllers
         }
         public async Task<IActionResult> Create()
         {
+            var sneakers = await _eventRepository.GetSneakers();
+            var products = await _eventRepository.GetProducts();
+            ViewData["Sneakers"] = new MultiSelectList(sneakers, "Id", "Name");
+            ViewData["Products"] = new MultiSelectList(products, "Id", "Name");
             var eventt = new Event();
             return View(eventt);
         }
