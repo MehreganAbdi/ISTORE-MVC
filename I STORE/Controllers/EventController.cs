@@ -30,10 +30,7 @@ namespace I_STORE.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Event eventt)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(eventt);
-            }
+            eventt.TimeRemaining = DateTime.Now.AddDays(14);
             await _eventRepository.AddAsync(eventt);
             return RedirectToAction("Index", "Event");
         }

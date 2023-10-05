@@ -1,0 +1,31 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Add Event";
+}
+
+<body>
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" type="text" class="form-control" placeholder="Enter Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <br />
+        
+        <div class="form-group">
+            <label asp-for="ProductsEvents">Products</label>
+            <select asp-for="ProductsEvents" asp-items="@ViewBag.Products">
+                <option> - - select - - </option>
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="SneakerEvents">Sneakers</label>
+            <select asp-for="SneakerEvents" asp-items="@ViewBag.Sneakers">
+                <option> - - select - - </option>
+            </select>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
