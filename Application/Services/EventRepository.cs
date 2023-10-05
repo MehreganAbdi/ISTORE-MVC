@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Context.Data;
 using Context.Models;
+using Context.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,16 @@ namespace Application.Services
         public Task<Event> GetByIdAsyncAsNoTracking(int Id)
         {
             return _context.Events.AsNoTracking().FirstOrDefaultAsync(e => e.Id == Id);
+        }
+
+        public async Task<IEnumerable<Product>> GetProducts()
+        {
+            return await _context.Products.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Sneaker>> GetSneakers()
+        {
+            return await _context.Sneakers.ToListAsync();
         }
 
         public bool Remove(Event eventt)
