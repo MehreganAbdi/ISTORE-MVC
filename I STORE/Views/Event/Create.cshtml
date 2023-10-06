@@ -25,8 +25,8 @@
         </div>
         <br />
         <div class="form-group">
-            <label asp-for="SelectedSneakers">Sneakers</label>
-            <select asp-for="SelectedSneakers" >
+            <label asp-for="SelectedSneakers" mbsc-input id="my-input" data-dropdown="true" data-tags="true">Sneakers</label>
+            <select id="multiple-select" asp-for="SelectedSneakers">
                 @foreach (var item in Model.allSneakers)
                 {
                     <option value="@item">@item.Name</option>
