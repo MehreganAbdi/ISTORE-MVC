@@ -14,8 +14,11 @@
         
         <div class="form-group">
             <label asp-for="ProductsEvents">Products</label>
-            <select asp-for="ProductsEvents" asp-items="@ViewBag.Products">
-                <option> - - select - - </option>
+            <select asp-for="ProductsEvents" multiple>
+                @foreach (var item in ViewBag.Products)
+                {
+                    <option value="@item"></option>
+                }
             </select>
         </div>
         <br />

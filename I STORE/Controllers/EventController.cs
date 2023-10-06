@@ -22,15 +22,22 @@ namespace I_STORE.Controllers
         {
             var sneakers = await _eventRepository.GetSneakers();
             var products = await _eventRepository.GetProducts();
-            ViewData["Sneakers"] = new MultiSelectList(sneakers, "SneakerId", "Name");
-            ViewData["Products"] = new MultiSelectList(products, "ProductID", "ProductName");
-            var eventt = new Event();
-            return View(eventt);
+
+            var eventtVM = new EventVM();
+            eventtVM.allSneakers = sneakers.ToList();
+            eventtVM.allProducts = products.ToList();
+            return View(eventtVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Event eventt)
+        public async Task<IActionResult> Create(EventVM eventtVM)
         {
-            eventt.TimeRemaining = DateTime.Now.AddDays(14);
+            var eventt = new Event()
+            {
+                Name = eventtVM.Name,
+                ProductsEvents = eventtVM.SelectedProducts,
+                SneakerEvents = eventtVM.SelectedSneakers,
+                TimeRemaining = DateTime.Now.AddDays(14)
+            };
             await _eventRepository.AddAsync(eventt);
             return RedirectToAction("Index", "Event");
         }
