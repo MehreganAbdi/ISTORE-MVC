@@ -1,4 +1,5 @@
-﻿@model Event
+﻿@using Context.ViewModels;
+@model EventVM
 @{
     ViewData["Title"] = "Add Event";
 }
@@ -11,18 +12,26 @@
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <br />
-        
+
         <div class="form-group">
-            <label asp-for="ProductsEvents">Products</label>
-            <select asp-for="ProductsEvents" asp-items="@ViewBag.Products">
-                <option> - - select - - </option>
+            
+            <label asp-for="SelectedProducts">Products</label>
+            <select asp-for="SelectedProducts" multiple>
+                @foreach (var item in Model.allProducts)
+                {
+                    <option value="@item">@item.ProductName</option>
+                }
             </select>
         </div>
         <br />
         <div class="form-group">
-            <label asp-for="SneakerEvents">Sneakers</label>
-            <select asp-for="SneakerEvents" asp-items="@ViewBag.Sneakers">
-                <option> - - select - - </option>
+            <label asp-for="SelectedSneakers" mbsc-input id="my-input" data-dropdown="true" data-tags="true">Sneakers</label>
+            <select id="multiple-select" asp-for="SelectedSneakers">
+                @foreach (var item in Model.allSneakers)
+                {
+                    <option value="@item">@item.Name</option>
+
+                }
             </select>
         </div>
         <br />

@@ -1,0 +1,43 @@
+﻿@using Context.ViewModels;
+@model PSDetailVM
+@{
+    ViewData["Title"] = "Event Deatil";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">item Name</th>
+            <th scope="col"> Delete</th>
+        </tr>
+    </thead>
+    @{
+        var i = 1;
+    }
+    @foreach (var item in Model.Products)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@i</th>
+                <th scope="row">@item.ProductName</th>
+                   <th scope="row"></th>
+
+            </tr>
+        </tbody>
+        i++;
+    }
+    @foreach (var item in Model.Sneakers)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@i</th>
+                <th scope="row">@item.Name</th>
+                <th scope="row"></th>
+
+            </tr>
+        </tbody>
+        i++;
+    }
+</table>
