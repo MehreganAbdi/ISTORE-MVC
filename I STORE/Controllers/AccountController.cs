@@ -11,24 +11,31 @@ using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTOs;
 using Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNet.Identity;
 
 namespace I_STORE.Controllers
 {
     public class AccountController : Controller
     {
+        private int? RegisterPassword { get; set; } = null;
+
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
         private readonly ApplicationDbContext _context;
         private readonly IEmailService _emailService;
+        private readonly Microsoft.AspNet.Identity.IIdentityMessageService _identityMessageService;
         public AccountController(UserManager<AppUser> userManager,
                                         SignInManager<AppUser> signInManager,
                                         ApplicationDbContext applicationDBContext,
-                                        IEmailService emailService)
+                                        IEmailService emailService,
+                                        Microsoft.AspNet.Identity.IIdentityMessageService _identityMessageService)
         {
             _emailService = emailService;                               
             _context = applicationDBContext;
             _signinManager = signInManager;
             _userManager = userManager;
+            this._identityMessageService = _identityMessageService;
 
         }
         public IActionResult Login()
@@ -178,6 +185,41 @@ namespace I_STORE.Controllers
 
             return View();
         }
-       
+        public IActionResult AddPhoneNumber()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddPhoneNumber(string PhoneNumber)
+        {
+            var rnd = new Random();
+            RegisterPassword = rnd.Next(999, 9999);
+            var IdentityM = new Microsoft.AspNet.Identity.IdentityMessage()
+            {
+                Body = RegisterPassword.ToString(),
+                Subject = "",
+                Destination = PhoneNumber
+            };
+            _identityMessageService.SendAsync(IdentityM);
+            return RedirectToAction("CodeConfirmation", "Account"); 
+        }
+        public IActionResult CodeConfirmation()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CodeConfirmation(string Code , string PhoneNumber)
+        {
+            if(Convert.ToInt32(Code) != RegisterPassword || RegisterPassword==null)
+            {
+                return RedirectToAction("AddPhoneNumber");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
+            user.PhoneNumber = PhoneNumber;
+            user.PhoneNumberConfirmed = true;
+
+            RegisterPassword = null;
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

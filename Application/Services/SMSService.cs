@@ -16,6 +16,7 @@ namespace Application.Services
     public class SMSService : IIdentityMessageService
     {
         private readonly IOptions<SMSSetUp.SMSSetUp> config;
+
         public Task SendAsync(IdentityMessage message)
         {
             var accountSid = config.Value.SMSAccountIdentification;
