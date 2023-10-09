@@ -6,12 +6,8 @@
     ViewData["Title"] = "Edit User";
 }
 
-@if(Model.PhoneNumber == null)
-{
-        @Html.ActionLink("Add", "AddPhoneNumber")
-    
-}
 
+<a asp-controller="Account" asp-action="EmailConfirmation" class="btn btn-primary">Confirm Your Email</a>
 <form method="post" asp-action="EditProfile">
     <input type="hidden" value="Id" id="Id" asp-for="Id" />
     <div class="form-group">

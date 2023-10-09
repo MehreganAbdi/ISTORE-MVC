@@ -18,7 +18,7 @@ namespace I_STORE.Controllers
 {
     public class AccountController : Controller
     {
-        private int? RegisterPassword { get; set; } = null;
+        private  int? RegisterPassword ;
 
         private readonly Microsoft.AspNetCore.Identity.UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
@@ -179,8 +179,40 @@ namespace I_STORE.Controllers
             }
 
 
+
             return View();
         }
+
+        
+
+        public async  Task<IActionResult> EmailConfirmation()
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
+            var rnd = new Random();
+            RegisterPassword = rnd.Next(999, 9999);
+            var email = new EmailDTO()
+            {
+                message = "Your Confirmation Code : " + RegisterPassword.ToString(),
+                subject = "Confirmation Code",
+                reciever = user.Email
+            };
+            await _emailService.SendEmail(email);
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EmailConfirmation(string Code)
+        {
+            if(RegisterPassword==null || RegisterPassword != Convert.ToInt32(Code) || Code=="" || Code==null)
+            {
+                RegisterPassword = null;
+                return RedirectToAction("EditProfile", "UserDashBoard");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
+            user.EmailConfirmed = true;
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
         //[HttpGet]
         //public IActionResult AddPhoneNumber()
         //{
@@ -215,7 +247,7 @@ namespace I_STORE.Controllers
         //        user.PhoneNumber = null;
         //        return RedirectToAction("AddPhoneNumber");
         //    }
-            
+
         //    user.PhoneNumberConfirmed = true;
 
         //    RegisterPassword = null;
