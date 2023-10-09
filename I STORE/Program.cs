@@ -6,6 +6,7 @@ using Application.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Application.SMSSetUp;
 
 namespace I_STORE
 {
@@ -27,7 +28,7 @@ namespace I_STORE
 
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.Configure<CloudinarySetup>(builder.Configuration.GetSection("CloudinarySetup"));
-            
+            builder.Services.Configure<SMSSetUp>(builder.Configuration.GetSection("SMSSetUp"));
             
             var configuration = builder.Configuration;
             //builder.Services.AddAuthentication().AddGoogle(

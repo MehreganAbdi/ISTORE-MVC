@@ -6,7 +6,11 @@
     ViewData["Title"] = "Edit User";
 }
 
-
+@if(Model.PhoneNumber == null)
+{
+        @Html.ActionLink("Add", "AddPhoneNumber")
+    
+}
 
 <form method="post" asp-action="EditProfile">
     <input type="hidden" value="Id" id="Id" asp-for="Id" />
@@ -22,11 +26,7 @@
         <span asp-validation-for="Address" class="text-danger"></span>
 
     </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber"> Phone Number </label>
-        <input asp-for="PhoneNumber" type="text" value="@Model.PhoneNumber" class="form-control" placeholder="PjoneNumber">
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div><br /><br />
+<br /><br />
 
     <br />
     <button type="submit" class="btn btn-primary">Submit</button>
