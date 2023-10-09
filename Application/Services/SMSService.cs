@@ -19,6 +19,7 @@ namespace Application.Services
 
         public Task SendAsync(IdentityMessage message)
         {
+
             var accountSid = config.Value.SMSAccountIdentification;
             var authToken = config.Value.SMSAccountPassword;
             var fromNumber = config.Value.SMSAccountFrom;

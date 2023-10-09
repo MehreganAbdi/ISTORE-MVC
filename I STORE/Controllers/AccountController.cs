@@ -20,12 +20,12 @@ namespace I_STORE.Controllers
     {
         private int? RegisterPassword { get; set; } = null;
 
-        private readonly UserManager<AppUser> _userManager;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
         private readonly ApplicationDbContext _context;
         private readonly IEmailService _emailService;
         private readonly Microsoft.AspNet.Identity.IIdentityMessageService _identityMessageService;
-        public AccountController(UserManager<AppUser> userManager,
+        public AccountController(Microsoft.AspNetCore.Identity.UserManager<AppUser> userManager,
                                         SignInManager<AppUser> signInManager,
                                         ApplicationDbContext applicationDBContext,
                                         IEmailService emailService,
@@ -185,15 +185,18 @@ namespace I_STORE.Controllers
 
             return View();
         }
+        [HttpGet]
         public IActionResult AddPhoneNumber()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult AddPhoneNumber(string PhoneNumber)
+        public async Task<IActionResult> AddPhoneNumber(string PhoneNumber)
         {
             var rnd = new Random();
             RegisterPassword = rnd.Next(999, 9999);
+            var user =await _context.Users.FirstOrDefaultAsync(u=>u.Id== User.Identity.GetUserId());
+            user.PhoneNumber = PhoneNumber;
             var IdentityM = new Microsoft.AspNet.Identity.IdentityMessage()
             {
                 Body = RegisterPassword.ToString(),
@@ -208,14 +211,15 @@ namespace I_STORE.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CodeConfirmation(string Code , string PhoneNumber)
+        public async Task<IActionResult> CodeConfirmation(string Code )
         {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
             if(Convert.ToInt32(Code) != RegisterPassword || RegisterPassword==null)
             {
+                user.PhoneNumber = null;
                 return RedirectToAction("AddPhoneNumber");
             }
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
-            user.PhoneNumber = PhoneNumber;
+            
             user.PhoneNumberConfirmed = true;
 
             RegisterPassword = null;

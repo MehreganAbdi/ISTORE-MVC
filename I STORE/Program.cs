@@ -25,6 +25,8 @@ namespace I_STORE
             builder.Services.AddScoped<IUserDashBoardService, UserDashBoardService>();
             builder.Services.AddScoped<IAdminDashBoardService, AdminDashBoardService>();
             builder.Services.AddScoped<IEventRepository, EventRepository>();
+            builder.Services.AddScoped<Microsoft.AspNet.Identity.IIdentityMessageService, SMSService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.Configure<CloudinarySetup>(builder.Configuration.GetSection("CloudinarySetup"));
