@@ -96,7 +96,7 @@ namespace I_STORE.Controllers
             {
                 return View(registerVM);
             }
-
+            
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
 
 
@@ -105,6 +105,7 @@ namespace I_STORE.Controllers
                 TempData["Error"] = "This Email Already Exists";
                 return View(registerVM);
             }
+            
             var newUser = new AppUser()
             {
                 Email = registerVM.EmailAddress,
@@ -132,12 +133,7 @@ namespace I_STORE.Controllers
 
 
         }
-        [Authorize]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        
 
         [HttpGet]
         public async Task<IActionResult> LogOut()
@@ -185,45 +181,45 @@ namespace I_STORE.Controllers
 
             return View();
         }
-        [HttpGet]
-        public IActionResult AddPhoneNumber()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddPhoneNumber(string PhoneNumber)
-        {
-            var rnd = new Random();
-            RegisterPassword = rnd.Next(999, 9999);
-            var user =await _context.Users.FirstOrDefaultAsync(u=>u.Id== User.Identity.GetUserId());
-            user.PhoneNumber = PhoneNumber;
-            var IdentityM = new Microsoft.AspNet.Identity.IdentityMessage()
-            {
-                Body = RegisterPassword.ToString(),
-                Subject = "",
-                Destination = PhoneNumber
-            };
-            _identityMessageService.SendAsync(IdentityM);
-            return RedirectToAction("CodeConfirmation", "Account"); 
-        }
-        public IActionResult CodeConfirmation()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> CodeConfirmation(string Code )
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
-            if(Convert.ToInt32(Code) != RegisterPassword || RegisterPassword==null)
-            {
-                user.PhoneNumber = null;
-                return RedirectToAction("AddPhoneNumber");
-            }
+        //[HttpGet]
+        //public IActionResult AddPhoneNumber()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> AddPhoneNumber(string PhoneNumber)
+        //{
+        //    var rnd = new Random();
+        //    RegisterPassword = rnd.Next(999, 9999);
+        //    var user =await _context.Users.FirstOrDefaultAsync(u=>u.Id== User.Identity.GetUserId());
+        //    user.PhoneNumber = PhoneNumber;
+        //    var IdentityM = new Microsoft.AspNet.Identity.IdentityMessage()
+        //    {
+        //        Body = RegisterPassword.ToString(),
+        //        Subject = "",
+        //        Destination = PhoneNumber
+        //    };
+        //    _identityMessageService.SendAsync(IdentityM);
+        //    return RedirectToAction("CodeConfirmation", "Account"); 
+        //}
+        //public IActionResult CodeConfirmation()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> CodeConfirmation(string Code )
+        //{
+        //    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
+        //    if(Convert.ToInt32(Code) != RegisterPassword || RegisterPassword==null)
+        //    {
+        //        user.PhoneNumber = null;
+        //        return RedirectToAction("AddPhoneNumber");
+        //    }
             
-            user.PhoneNumberConfirmed = true;
+        //    user.PhoneNumberConfirmed = true;
 
-            RegisterPassword = null;
-            return RedirectToAction("Index", "Home");
-        }
+        //    RegisterPassword = null;
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }

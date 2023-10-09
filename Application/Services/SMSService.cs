@@ -15,14 +15,13 @@ namespace Application.Services
 {
     public class SMSService : IIdentityMessageService
     {
-        private readonly IOptions<SMSSetUp.SMSSetUp> config;
 
         public Task SendAsync(IdentityMessage message)
         {
 
-            var accountSid = config.Value.SMSAccountIdentification;
-            var authToken = config.Value.SMSAccountPassword;
-            var fromNumber = config.Value.SMSAccountFrom;
+            var accountSid = "ACe78bb6bfa64a631be81c5fb2e98fa549";
+            var authToken = "7e9e6915e48f626990ad859a60a32189";
+            var fromNumber = "+989926364401";
 
             TwilioClient.Init(accountSid, authToken);
 
