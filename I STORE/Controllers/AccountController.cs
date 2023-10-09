@@ -9,6 +9,8 @@ using RestSharp;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
+using Application.DTOs;
+using Application.Interfaces;
 
 namespace I_STORE.Controllers
 {
@@ -17,11 +19,13 @@ namespace I_STORE.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
         private readonly ApplicationDbContext _context;
-
+        private readonly IEmailService _emailService;
         public AccountController(UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager,
-                                        ApplicationDbContext applicationDBContext)
+                                        SignInManager<AppUser> signInManager,
+                                        ApplicationDbContext applicationDBContext,
+                                        IEmailService emailService)
         {
+            _emailService = emailService;                               
             _context = applicationDBContext;
             _signinManager = signInManager;
             _userManager = userManager;
@@ -108,7 +112,13 @@ namespace I_STORE.Controllers
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
-                SendEmail(newUser.Email, "Registration", "Registration Completed! \n Ckeck Out Our New Sneakers On Our Web . \n");
+                var emailInfo = new EmailDTO()
+                {
+                    subject = "Registration",
+                    reciever = newUser.Email,
+                    message = "Registration Completed! \n Ckeck Out Our New Sneakers On Our Web . \n"
+                };
+                await _emailService.SendEmail(emailInfo);
             }
             return RedirectToAction("Index", "Home");
 
@@ -168,42 +178,6 @@ namespace I_STORE.Controllers
 
             return View();
         }
-        public ActionResult SendEmail(string receiver, string subject, string message)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var senderEmail = new MailAddress("mehreganabdiwebmail@gmail.com");
-                    var receiverEmail = new MailAddress(receiver, "Receiver");
-                    var password = "kxbo ipin pkyn vgfo";
-                    var sub = subject;
-                    var body = message + $"\n{DateTime.Now}\nThanks For Contacting , Good Luck .";
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-                    return View();
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-            return View();
-        }
+       
     }
 }
