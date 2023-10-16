@@ -138,7 +138,7 @@ namespace Application.Services
             foreach (var item in _context.Products)
             {
                 item.OFF = offPercentage;
-                Save();
+              
             }
 
             return Save();
@@ -149,7 +149,7 @@ namespace Application.Services
             foreach (var item in _context.Sneakers)
             {
                 item.OFF = offPercentage;
-                Save();
+               
             }
 
             return Save();

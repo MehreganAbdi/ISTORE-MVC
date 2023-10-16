@@ -25,17 +25,19 @@ namespace I_STORE.Controllers
             var model = await _adminDashBoardService.GetAllPurchases();
             return View(model);
         }
-        public async Task<IActionResult> OffToAllSneakers(int? OffPercentage)
+        public async Task<IActionResult> OffToAllSneakers(string OffPercentagestring)
         {
-            if (OffPercentage != null)
+            var OffPercentage = Convert.ToInt32(OffPercentagestring);
+            if (OffPercentage != null && OffPercentage.GetType()==typeof(int)) 
             {
                 _adminDashBoardService.OffForAllSneakers((int)OffPercentage);
             }
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> OffToAllProducts(int? OffPercentage)
+        public async Task<IActionResult> OffToAllProducts(string OffPercentagestring)
         {
-            if (OffPercentage != null)
+            var OffPercentage = Convert.ToInt32(OffPercentagestring);
+            if (OffPercentage != null && OffPercentage.GetType() == typeof(int))
             {
                 _adminDashBoardService.OffForAllProducts((int)OffPercentage);
             }

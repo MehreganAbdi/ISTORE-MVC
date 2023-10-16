@@ -4,6 +4,27 @@
 @{
     ViewData["Title"] = "All Ready Purchases";
 }
+
+    @using (Html.BeginForm("OffToAllSneakers", "AdminDashBoard", FormMethod.Get))
+    {
+        <label>Off To All Sneakers</label>
+
+        @Html.TextBox("OffPercentagestring")
+       
+        <input type="submit"  class="btn-primary" />
+
+    }
+    <br />
+    @using (Html.BeginForm("OffToAllProducts", "AdminDashBoard", FormMethod.Get))
+    {
+        <label>Off To All Products </label>
+        @Html.TextBox("OffPercentagestring")
+        
+        <input type="submit" class="btn-primary" />
+
+    }
+
+
 <a class="btn btn-primary" asp-controller="Event" asp-action="Index" >Events</a>
 <table class="table">
     <thead>
