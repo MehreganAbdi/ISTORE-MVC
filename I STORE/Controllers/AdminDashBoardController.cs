@@ -2,15 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
+using Application.DTOs;
 
 namespace I_STORE.Controllers
 {
     public class AdminDashBoardController : Controller
     {
         private readonly IAdminDashBoardService _adminDashBoardService;
-        public AdminDashBoardController(IAdminDashBoardService adminDashBoardService)
+        private readonly IEmailService _emailService;
+        public AdminDashBoardController(IAdminDashBoardService adminDashBoardService, IEmailService emailService)
         {
             _adminDashBoardService = adminDashBoardService;
+            _emailService = emailService;
+
         }
         public async Task<IActionResult> Index()
         {
@@ -21,7 +25,24 @@ namespace I_STORE.Controllers
             var model = await _adminDashBoardService.GetAllPurchases();
             return View(model);
         }
-
+        public async Task<IActionResult> OffToAllSneakers(string OffPercentagestring)
+        {
+            var OffPercentage = Convert.ToInt32(OffPercentagestring);
+            if (OffPercentage != null && OffPercentage.GetType()==typeof(int)) 
+            {
+                _adminDashBoardService.OffForAllSneakers((int)OffPercentage);
+            }
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> OffToAllProducts(string OffPercentagestring)
+        {
+            var OffPercentage = Convert.ToInt32(OffPercentagestring);
+            if (OffPercentage != null && OffPercentage.GetType() == typeof(int))
+            {
+                _adminDashBoardService.OffForAllProducts((int)OffPercentage);
+            }
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> Accept(int Id)
         {
             if(!User.Identity.IsAuthenticated || User.IsInRole("user"))
@@ -31,7 +52,13 @@ namespace I_STORE.Controllers
             var purchase = await _adminDashBoardService.GetByIdAsync(Id);
             _adminDashBoardService.AcceptPurchase(purchase);
             var user = await _adminDashBoardService.GetUserByIdAsync(purchase.AppUserId);
-            SendEmail(user.Email, "Purchase Accepted", $"Your Purchase By Id : {purchase.PurchaseId} Has Been Acepted , Try To Complete Your Purchase Before We Run Out Of This Item.");
+            var emailInfo = new EmailDTO()
+            {
+                reciever = user.Email,
+                subject = "Purchase Accepted",
+                message = $"Your Purchase By Id : {purchase.PurchaseId} Has Been Acepted , Try To Complete Your Purchase Before We Run Out Of This Item."
+            };
+            await _emailService.SendEmail(emailInfo);
             return RedirectToAction("Index", "AdminDashBoard");
         }
         public async Task<IActionResult> Reject(int Id)
@@ -46,43 +73,7 @@ namespace I_STORE.Controllers
             return RedirectToAction("Index", "AdminDashBoard");
 
         }
-        public ActionResult SendEmail(string receiver, string subject, string message)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var senderEmail = new MailAddress("mehreganabdiwebmail@gmail.com");
-                    var receiverEmail = new MailAddress(receiver, "Receiver");
-                    var password = "kxboeipinFpkyngvgfo";
-                    var sub = subject;
-                    var body = message + $"\n{DateTime.Now}\nThanks For Contacting , Good Luck .";
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-                    return View();
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-            return View();
-        }
+        
 
     }
 }

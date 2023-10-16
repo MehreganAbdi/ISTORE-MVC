@@ -13,6 +13,9 @@ namespace Application.Interfaces
         Task<PurchaseVM> GetPurchaseDetail(Purchase purchase);
         bool AcceptPurchase(Purchase purchase);
         bool Save();
+        Task<bool> SaveAsync();
+        bool OffForAllProducts(int offPercentage);
+        bool OffForAllSneakers(int offPercentage);
 
     }
 }

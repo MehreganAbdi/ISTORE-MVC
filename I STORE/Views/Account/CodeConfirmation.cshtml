@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Phone Number Confirmation";
+}
+
+<body>
+    <form method="post" asp-action="CodeConfirmation" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Code </label>
+            <input name="Code" type="text" class="form-control" placeholder="Enter Code">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
