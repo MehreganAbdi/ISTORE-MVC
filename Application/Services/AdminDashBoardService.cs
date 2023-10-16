@@ -133,6 +133,28 @@ namespace Application.Services
             return _context.Users.FirstOrDefaultAsync(a => a.Id == Id);
         }
 
+        public bool OffForAllProducts(int offPercentage)
+        {
+            foreach (var item in _context.Products)
+            {
+                item.OFF = offPercentage;
+                Save();
+            }
+
+            return Save();
+        }
+
+        public bool OffForAllSneakers(int offPercentage)
+        {
+            foreach (var item in _context.Sneakers)
+            {
+                item.OFF = offPercentage;
+                Save();
+            }
+
+            return Save();
+        }
+
         public bool RejectPurchase(Purchase purchase)
         {
             purchase.Status = Status.NotAvailable;
@@ -142,6 +164,11 @@ namespace Application.Services
         public bool Save()
         {
             return _context.SaveChanges() > 0 ? true : false;
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _context.SaveChangesAsync() > 0 ? true : false; 
         }
     }
 }

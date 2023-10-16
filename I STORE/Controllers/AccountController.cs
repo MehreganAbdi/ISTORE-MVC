@@ -18,7 +18,7 @@ namespace I_STORE.Controllers
 {
     public class AccountController : Controller
     {
-        private  int? RegisterPassword ;
+        private int? RegisterPassword { get; set; }
 
         private readonly Microsoft.AspNetCore.Identity.UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
@@ -29,14 +29,15 @@ namespace I_STORE.Controllers
                                         SignInManager<AppUser> signInManager,
                                         ApplicationDbContext applicationDBContext,
                                         IEmailService emailService,
-                                        Microsoft.AspNet.Identity.IIdentityMessageService _identityMessageService)
+                                        Microsoft.AspNet.Identity.IIdentityMessageService _identityMessageService,
+                                        int? RegPass=null)
         {
             _emailService = emailService;                               
             _context = applicationDBContext;
             _signinManager = signInManager;
             _userManager = userManager;
             this._identityMessageService = _identityMessageService;
-
+            RegisterPassword = RegPass;
         }
         public IActionResult Login()
         {
@@ -189,10 +190,11 @@ namespace I_STORE.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == User.Identity.GetUserId());
             var rnd = new Random();
-            RegisterPassword = rnd.Next(999, 9999);
+            var code = rnd.Next(999, 9999);
+            
             var email = new EmailDTO()
             {
-                message = "Your Confirmation Code : " + RegisterPassword.ToString(),
+                message = "Your Confirmation Code : " + code.ToString(),
                 subject = "Confirmation Code",
                 reciever = user.Email
             };
