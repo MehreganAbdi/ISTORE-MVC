@@ -31,6 +31,8 @@ namespace I_STORE.Controllers
             return View(allSneakers);
         }
 
+        
+
         public async Task<IActionResult> Detail(int Id)
         {
             var sneaker = await _sneakerService.GetByIdAsync(Id);

@@ -25,7 +25,22 @@ namespace I_STORE.Controllers
             var model = await _adminDashBoardService.GetAllPurchases();
             return View(model);
         }
-
+        public async Task<IActionResult> OffToAllSneakers(int? OffPercentage)
+        {
+            if (OffPercentage != null)
+            {
+                _adminDashBoardService.OffForAllSneakers((int)OffPercentage);
+            }
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> OffToAllProducts(int? OffPercentage)
+        {
+            if (OffPercentage != null)
+            {
+                _adminDashBoardService.OffForAllProducts((int)OffPercentage);
+            }
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> Accept(int Id)
         {
             if(!User.Identity.IsAuthenticated || User.IsInRole("user"))
@@ -57,5 +72,6 @@ namespace I_STORE.Controllers
 
         }
         
+
     }
 }
